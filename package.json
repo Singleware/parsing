@@ -1,0 +1,50 @@
+{
+  "author": {
+    "name": "Silas B. Domingos",
+    "email": "hello@balmante.eti.br",
+    "url": "https://balmante.eti.br"
+  },
+  "name": "@singleware/parsing",
+  "description": "Singleware parsing tools.",
+  "license": "MIT",
+  "version": "1.0.1",
+  "main": "release/source/index.js",
+  "types": "release/types/index.d.ts",
+  "keywords": [
+    "parsing",
+    "lexical parsing",
+    "syntactical parsing"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/singleware/parsing"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "@singleware/class": "^1.1.19"
+  },
+  "devDependencies": {
+    "@singleware/testing": "^1.0.0",
+    "@types/node": "^11.13.0",
+    "prettier": "^1.16.4",
+    "typescript": "^2.9.2"
+  },
+  "prettier": {
+    "printWidth": 140,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "semi": true
+  },
+  "scripts": {
+    "prepublishOnly": "npm test",
+    "test": "node ./release/tests/suite.js",
+    "start": "node ./release/examples/html.js",
+    "build": "npm run make-source && npm run make-examples && npm run make-tests",
+    "make-source": "tsc -p ./source && npm run update-source",
+    "make-examples": "tsc -p ./examples",
+    "make-tests": "tsc -p ./tests",
+    "update-source": "cp -Rf ./source/*.d.ts ./release/types"
+  }
+}
