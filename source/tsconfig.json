@@ -5,6 +5,7 @@
     "strict": true,
     "sourceMap": true,
     "declaration": true,
+    "incremental": true,
     "experimentalDecorators": true,
     "suppressExcessPropertyErrors": true,
     "outDir": "../release/source",

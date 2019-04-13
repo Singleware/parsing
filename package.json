@@ -29,7 +29,7 @@
     "@singleware/testing": "^1.0.0",
     "@types/node": "^11.13.0",
     "prettier": "^1.16.4",
-    "typescript": "^2.9.2"
+    "typescript": "^3.4.3"
   },
   "prettier": {
     "printWidth": 140,
