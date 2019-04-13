@@ -6,6 +6,7 @@ import { Rule } from '../../rule';
 export declare class Letters extends Repeat implements Rule {
     /**
      * Default constructor.
+     * @param uppercase Determines whether all letters should be uppercase.
      */
-    constructor();
+    constructor(uppercase: boolean);
 }

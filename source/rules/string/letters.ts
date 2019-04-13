@@ -16,8 +16,9 @@ import { Rule } from '../../rule';
 export class Letters extends Repeat implements Rule {
   /**
    * Default constructor.
+   * @param uppercase Determines whether all letters should be uppercase.
    */
-  constructor() {
-    super(new Char.Letter());
+  constructor(uppercase: boolean) {
+    super(new Char.Letter(uppercase));
   }
 }

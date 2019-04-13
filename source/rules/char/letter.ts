@@ -14,8 +14,9 @@ import { Rule } from '../../rule';
 export class Letter extends Range implements Rule {
   /**
    * Default constructor.
+   * @param uppercase Determines whether all letters should be uppercase.
    */
-  constructor() {
-    super('a', 'z');
+  constructor(uppercase: boolean) {
+    super(uppercase ? 'A' : 'a', uppercase ? 'Z' : 'z');
   }
 }

@@ -18,9 +18,10 @@ const range_1 = require("./range");
 let Letter = class Letter extends range_1.Range {
     /**
      * Default constructor.
+     * @param uppercase Determines whether all letters should be uppercase.
      */
-    constructor() {
-        super('a', 'z');
+    constructor(uppercase) {
+        super(uppercase ? 'A' : 'a', uppercase ? 'Z' : 'z');
     }
 };
 Letter = __decorate([

@@ -89,6 +89,7 @@ const context = new Parsing.Context(`
     <custom-element />
     <namespaced:element />
   </body>
+  <script></script>
   <!-- Body ends -->
 </html>`);
 
@@ -101,7 +102,7 @@ const tagOpen = new Parsing.Rules.Char.Expect('<');
 const tagEnding = new Parsing.Rules.Char.Expect('/');
 const tagClose = new Parsing.Rules.Char.Expect('>');
 const tagName = new Parsing.Rules.Repeat(new Parsing.Rules.Not(new Parsing.Rules.Any(whitespace, tagEnding, tagClose), content));
-const paramName = new Parsing.Rules.String.Letters();
+const paramName = new Parsing.Rules.String.Letters(false);
 const paramAssign = new Parsing.Rules.Char.Expect('=');
 
 const singleString = new Parsing.Rules.All(
@@ -125,7 +126,11 @@ const doubleString = new Parsing.Rules.All(
 const noString = new Parsing.Rules.Data.Extract(
   'value',
   new Parsing.Rules.Repeat(
-    new Parsing.Rules.Any(new Parsing.Rules.String.Letters(), new Parsing.Rules.String.Digits(), new Parsing.Rules.Char.Choice('-', '_'))
+    new Parsing.Rules.Any(
+      new Parsing.Rules.String.Letters(false),
+      new Parsing.Rules.String.Digits(),
+      new Parsing.Rules.Char.Choice('-', '_')
+    )
   )
 );
 

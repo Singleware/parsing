@@ -87,6 +87,7 @@ const context = new Parsing.Context(`
     <custom-element />
     <namespaced:element />
   </body>
+  <script></script>
   <!-- Body ends -->
 </html>`);
 const singleQuotes = new Parsing.Rules.Char.Expect("'");
@@ -98,11 +99,11 @@ const tagOpen = new Parsing.Rules.Char.Expect('<');
 const tagEnding = new Parsing.Rules.Char.Expect('/');
 const tagClose = new Parsing.Rules.Char.Expect('>');
 const tagName = new Parsing.Rules.Repeat(new Parsing.Rules.Not(new Parsing.Rules.Any(whitespace, tagEnding, tagClose), content));
-const paramName = new Parsing.Rules.String.Letters();
+const paramName = new Parsing.Rules.String.Letters(false);
 const paramAssign = new Parsing.Rules.Char.Expect('=');
 const singleString = new Parsing.Rules.All(singleQuotes, new Parsing.Rules.Data.Extract('value', new Parsing.Rules.Repeat(new Parsing.Rules.Decision(escapeString, content, new Parsing.Rules.Not(singleQuotes, content)))), singleQuotes);
 const doubleString = new Parsing.Rules.All(doubleQuotes, new Parsing.Rules.Data.Extract('value', new Parsing.Rules.Repeat(new Parsing.Rules.Decision(escapeString, content, new Parsing.Rules.Not(doubleQuotes, content)))), doubleQuotes);
-const noString = new Parsing.Rules.Data.Extract('value', new Parsing.Rules.Repeat(new Parsing.Rules.Any(new Parsing.Rules.String.Letters(), new Parsing.Rules.String.Digits(), new Parsing.Rules.Char.Choice('-', '_'))));
+const noString = new Parsing.Rules.Data.Extract('value', new Parsing.Rules.Repeat(new Parsing.Rules.Any(new Parsing.Rules.String.Letters(false), new Parsing.Rules.String.Digits(), new Parsing.Rules.Char.Choice('-', '_'))));
 const commentOpen = new Parsing.Rules.String.Expect('<!--');
 const commentClose = new Parsing.Rules.String.Expect('-->');
 const optionalSpace = new Parsing.Rules.Option(new Parsing.Rules.Repeat(whitespace));

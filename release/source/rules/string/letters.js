@@ -19,9 +19,10 @@ const repeat_1 = require("../repeat");
 let Letters = class Letters extends repeat_1.Repeat {
     /**
      * Default constructor.
+     * @param uppercase Determines whether all letters should be uppercase.
      */
-    constructor() {
-        super(new Char.Letter());
+    constructor(uppercase) {
+        super(new Char.Letter(uppercase));
     }
 };
 Letters = __decorate([
