@@ -19,11 +19,12 @@ const option_1 = require("./option");
 let Any = class Any extends Class.Null {
     /**
      * Default constructor.
+     * @param rule First rule.
      * @param rules List of rules.
      */
-    constructor(...rules) {
+    constructor(rule, ...rules) {
         super();
-        if ((this.rules = rules).findIndex(rule => rule instanceof option_1.Option) !== -1) {
+        if ((this.rules = [rule, ...rules]).findIndex(rule => rule instanceof option_1.Option) !== -1) {
             throw new Error(`Any rule can't contains Option rules.`);
         }
     }

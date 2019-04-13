@@ -22,11 +22,12 @@ export class All extends Class.Null implements Rule {
 
   /**
    * Default constructor.
+   * @param rule First rule.
    * @param rules List of expected rules.
    */
-  constructor(...rules: Rule[]) {
+  constructor(rule: Rule, ...rules: Rule[]) {
     super();
-    this.rules = rules;
+    this.rules = [rule, ...rules];
   }
 
   /**

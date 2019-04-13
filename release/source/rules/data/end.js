@@ -7,35 +7,40 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
- * Copyright (C) 2019 Silas B. Domingos
+ * Copyright (C) 2018-2019 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Testing = require("@singleware/testing");
-const Parsing = require("../../source");
 /**
- * Rule for any character, test case
+ * End-of-content rule, rule class.
  */
-let Any = class Any extends Testing.Case {
+let End = class End extends Class.Null {
     /**
-     * Consume any character.
+     * Consumes this rule without moving ahead the context offset.
+     * @param context Context entity.
+     * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    testConsumeAnyChar() {
-        const context = new Parsing.Context('x');
-        const tree = new Parsing.Trees.Node('test', 0);
-        const rule = new Parsing.Rules.Char.Any();
-        this.isTrue(rule.consume(context, tree));
-        this.areSame(context.offset, 1);
-        this.areSame(context.error.code, 0);
-        this.areSame(context.error.offset, -1);
+    peek(context) {
+        return context.offset === context.length;
+    }
+    /**
+     * Consumes this rule moving ahead the context offset.
+     * @param context Context entity.
+     * @param node Current context node.
+     * @returns Returns true when the analysis was succeed or false otherwise.
+     */
+    consume(context, node) {
+        return this.peek(context);
     }
 };
 __decorate([
-    Testing.Method(),
     Class.Public()
-], Any.prototype, "testConsumeAnyChar", null);
-Any = __decorate([
+], End.prototype, "peek", null);
+__decorate([
+    Class.Public()
+], End.prototype, "consume", null);
+End = __decorate([
     Class.Describe()
-], Any);
-exports.Any = Any;
-//# sourceMappingURL=any.spec.js.map
+], End);
+exports.End = End;
+//# sourceMappingURL=end.js.map

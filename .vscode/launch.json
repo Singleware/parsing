@@ -12,6 +12,15 @@
             "outFiles": [
                 "${workspaceFolder}/release/**/*.js"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Test",
+            "program": "${workspaceFolder}/release/tests/suite.js",
+            "outFiles": [
+                "${workspaceFolder}/release/**/*.js"
+            ]
         }
     ]
 }

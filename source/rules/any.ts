@@ -24,11 +24,12 @@ export class Any extends Class.Null implements Rule {
 
   /**
    * Default constructor.
+   * @param rule First rule.
    * @param rules List of rules.
    */
-  constructor(...rules: Rule[]) {
+  constructor(rule: Rule, ...rules: Rule[]) {
     super();
-    if ((this.rules = rules).findIndex(rule => rule instanceof Option) !== -1) {
+    if ((this.rules = [rule, ...rules]).findIndex(rule => rule instanceof Option) !== -1) {
       throw new Error(`Any rule can't contains Option rules.`);
     }
   }

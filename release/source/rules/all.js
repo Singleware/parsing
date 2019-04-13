@@ -17,11 +17,12 @@ const Class = require("@singleware/class");
 let All = class All extends Class.Null {
     /**
      * Default constructor.
+     * @param rule First rule.
      * @param rules List of expected rules.
      */
-    constructor(...rules) {
+    constructor(rule, ...rules) {
         super();
-        this.rules = rules;
+        this.rules = [rule, ...rules];
     }
     /**
      * Consumes this rule without moving ahead the context offset.

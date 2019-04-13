@@ -12,9 +12,10 @@ export declare class All extends Class.Null implements Rule {
     private rules;
     /**
      * Default constructor.
+     * @param rule First rule.
      * @param rules List of expected rules.
      */
-    constructor(...rules: Rule[]);
+    constructor(rule: Rule, ...rules: Rule[]);
     /**
      * Consumes this rule without moving ahead the context offset.
      * @param context Context entity.

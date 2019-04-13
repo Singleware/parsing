@@ -5,7 +5,6 @@
 export { All } from './all';
 export { Any } from './any';
 export { Decision } from './decision';
-export { EOC } from './eoc';
 export { Error } from './error';
 export { Not } from './not';
 export { Null } from './null';

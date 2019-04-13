@@ -221,7 +221,7 @@ collection = new Parsing.Rules.Repeat(new Parsing.Rules.Any(whitespace, text, co
 
 document = new Parsing.Rules.All(
   new Parsing.Rules.Option(collection),
-  new Parsing.Rules.Error(Errors.EXPECTED_END_OF_CONTENT, new Parsing.Rules.EOC())
+  new Parsing.Rules.Error(Errors.EXPECTED_END_OF_CONTENT, new Parsing.Rules.Data.End())
 );
 
 if (document.consume(context, tree)) {

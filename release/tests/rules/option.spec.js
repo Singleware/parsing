@@ -7,40 +7,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
- * Copyright (C) 2018-2019 Silas B. Domingos
+ * Copyright (C) 2019 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
+const Testing = require("@singleware/testing");
+const Parsing = require("../../source");
 /**
- * End-of-content rule, rule class.
+ * Option rule, test case.
  */
-let EOC = class EOC extends Class.Null {
+let Option = class Option extends Testing.Case {
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
+     * Test method.
      */
-    peek(context) {
-        return context.offset === context.length;
-    }
-    /**
-     * Consumes this rule moving ahead the context offset.
-     * @param context Context entity.
-     * @param node Current context node.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    consume(context, node) {
-        return this.peek(context);
+    option() {
+        const context = new Parsing.Context('x');
+        const tree = new Parsing.Trees.Node('test', 0);
+        const rule = new Parsing.Rules.Option(new Parsing.Rules.Char.Expect('a'));
+        // Expected success (Always true)
+        this.isTrue(rule.consume(context, tree));
+        this.areSame(context.offset, 0);
     }
 };
 __decorate([
+    Testing.Method(),
     Class.Public()
-], EOC.prototype, "peek", null);
-__decorate([
-    Class.Public()
-], EOC.prototype, "consume", null);
-EOC = __decorate([
+], Option.prototype, "option", null);
+Option = __decorate([
     Class.Describe()
-], EOC);
-exports.EOC = EOC;
-//# sourceMappingURL=eoc.js.map
+], Option);
+exports.Option = Option;
+//# sourceMappingURL=option.spec.js.map

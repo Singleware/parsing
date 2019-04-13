@@ -4,16 +4,16 @@
  */
 import * as Class from '@singleware/class';
 
-import * as Trees from '../trees';
+import * as Trees from '../../trees';
 
-import { Rule } from '../rule';
-import { Context } from '../context';
+import { Rule } from '../../rule';
+import { Context } from '../../context';
 
 /**
  * End-of-content rule, rule class.
  */
 @Class.Describe()
-export class EOC extends Class.Null implements Rule {
+export class End extends Class.Null implements Rule {
   /**
    * Consumes this rule without moving ahead the context offset.
    * @param context Context entity.

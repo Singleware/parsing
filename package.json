@@ -26,9 +26,9 @@
     "@singleware/class": "^1.1.19"
   },
   "devDependencies": {
-    "@singleware/testing": "^1.0.0",
-    "@types/node": "^11.13.0",
-    "prettier": "^1.16.4",
+    "@singleware/testing": "^1.0.1",
+    "@types/node": "^11.13.4",
+    "prettier": "^1.17.0",
     "typescript": "^3.4.3"
   },
   "prettier": {

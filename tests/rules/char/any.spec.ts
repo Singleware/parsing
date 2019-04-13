@@ -5,26 +5,27 @@
 import * as Class from '@singleware/class';
 import * as Testing from '@singleware/testing';
 
-import * as Parsing from '../../source';
+import * as Parsing from '../../../source';
 
 /**
- * Rule for any character, test case
+ * Any character rule, test case.
  */
 @Class.Describe()
 export class Any extends Testing.Case {
   /**
-   * Consume any character.
+   * Test method.
    */
   @Testing.Method()
   @Class.Public()
-  public testConsumeAnyChar(): void {
+  public charAny(): void {
     const context = new Parsing.Context('x');
     const tree = new Parsing.Trees.Node('test', 0);
     const rule = new Parsing.Rules.Char.Any();
-
+    // Success
     this.isTrue(rule.consume(context, tree));
     this.areSame(context.offset, 1);
-    this.areSame(context.error.code, 0);
-    this.areSame(context.error.offset, -1);
+    // Expected error (No content available)
+    this.isFalse(rule.consume(context, tree));
+    this.areSame(context.offset, 1);
   }
 }
