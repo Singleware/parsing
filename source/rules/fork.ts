@@ -8,10 +8,10 @@ import { Rule } from '../rule';
 import { Context } from '../context';
 
 /**
- * Decision rule, rule class.
+ * Fork rule, rule class.
  */
 @Class.Describe()
-export class Decision extends Class.Null implements Rule {
+export class Fork extends Class.Null implements Rule {
   /**
    * Condition rule.
    */
@@ -33,6 +33,8 @@ export class Decision extends Class.Null implements Rule {
   /**
    * Default constructor.
    * @param condition Condition rule.
+   * @param success Success rule.
+   * @param failure Failure rule.
    */
   constructor(condition: Rule, success: Rule, failure: Rule) {
     super();

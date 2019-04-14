@@ -8,10 +8,10 @@ import * as Testing from '@singleware/testing';
 import * as Parsing from '../../source';
 
 /**
- * Decision rule, test case.
+ * Fork rule, test case.
  */
 @Class.Describe()
-export class Decision extends Testing.Case {
+export class Fork extends Testing.Case {
   /**
    * Test method.
    */
@@ -19,7 +19,7 @@ export class Decision extends Testing.Case {
   @Class.Public()
   public decision(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), '\\a0a');
-    const rule = new Parsing.Rules.Decision(
+    const rule = new Parsing.Rules.Fork(
       new Parsing.Rules.Char.Expect('\\'),
       new Parsing.Rules.Char.Any(),
       new Parsing.Rules.Char.Digit()

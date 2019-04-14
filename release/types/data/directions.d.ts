@@ -1,5 +1,5 @@
 /**
- * Tree node, directions enumeration.
+ * Data directions enumeration.
  */
 export declare enum Directions {
     LEFT = 1,

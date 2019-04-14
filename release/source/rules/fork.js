@@ -12,12 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 /**
- * Decision rule, rule class.
+ * Fork rule, rule class.
  */
-let Decision = class Decision extends Class.Null {
+let Fork = class Fork extends Class.Null {
     /**
      * Default constructor.
      * @param condition Condition rule.
+     * @param success Success rule.
+     * @param failure Failure rule.
      */
     constructor(condition, success, failure) {
         super();
@@ -41,18 +43,18 @@ let Decision = class Decision extends Class.Null {
 };
 __decorate([
     Class.Private()
-], Decision.prototype, "condition", void 0);
+], Fork.prototype, "condition", void 0);
 __decorate([
     Class.Private()
-], Decision.prototype, "success", void 0);
+], Fork.prototype, "success", void 0);
 __decorate([
     Class.Private()
-], Decision.prototype, "failure", void 0);
+], Fork.prototype, "failure", void 0);
 __decorate([
     Class.Public()
-], Decision.prototype, "consume", null);
-Decision = __decorate([
+], Fork.prototype, "consume", null);
+Fork = __decorate([
     Class.Describe()
-], Decision);
-exports.Decision = Decision;
-//# sourceMappingURL=decision.js.map
+], Fork);
+exports.Fork = Fork;
+//# sourceMappingURL=fork.js.map

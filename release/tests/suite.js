@@ -33,7 +33,7 @@ suite.addCase(Data.Node);
 // Test cases for generic rules.
 suite.addCase(Rules.All);
 suite.addCase(Rules.Any);
-suite.addCase(Rules.Decision);
+suite.addCase(Rules.Fork);
 suite.addCase(Rules.Error);
 suite.addCase(Rules.False);
 suite.addCase(Rules.Not);

@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Copyright (C) 2018-2019 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
+var condition_1 = require("./condition");
+exports.Condition = condition_1.Condition;
 var end_1 = require("./end");
 exports.End = end_1.End;
 var extract_1 = require("./extract");

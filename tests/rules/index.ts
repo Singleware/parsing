@@ -4,9 +4,9 @@
  */
 export { All } from './all.spec';
 export { Any } from './any.spec';
-export { Decision } from './decision.spec';
 export { Error } from './error.spec';
 export { False } from './false.spec';
+export { Fork } from './fork.spec';
 export { Not } from './not.spec';
 export { Option } from './option.spec';
 export { Reference } from './reference.spec';

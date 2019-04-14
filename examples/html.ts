@@ -82,7 +82,7 @@ const context = new Parsing.Context(
 <html>
   <!-- Header begins -->
   <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
     <title>Parser Test</title>
   </head>
   <!-- Header ends, body begins -->
@@ -111,7 +111,7 @@ const singleString = new Parsing.Rules.All(
   singleQuotes,
   new Parsing.Rules.Data.Extract(
     'value',
-    new Parsing.Rules.Repeat(new Parsing.Rules.Decision(escapeString, content, new Parsing.Rules.Not(singleQuotes, content)))
+    new Parsing.Rules.Repeat(new Parsing.Rules.Fork(escapeString, content, new Parsing.Rules.Not(singleQuotes, content)))
   ),
   singleQuotes
 );
@@ -120,7 +120,7 @@ const doubleString = new Parsing.Rules.All(
   doubleQuotes,
   new Parsing.Rules.Data.Extract(
     'value',
-    new Parsing.Rules.Repeat(new Parsing.Rules.Decision(escapeString, content, new Parsing.Rules.Not(doubleQuotes, content)))
+    new Parsing.Rules.Repeat(new Parsing.Rules.Fork(escapeString, content, new Parsing.Rules.Not(doubleQuotes, content)))
   ),
   doubleQuotes
 );
@@ -194,6 +194,12 @@ element = new Parsing.Rules.Success(
         )
       ),
       new Parsing.Rules.Any(
+        new Parsing.Rules.Data.Condition(
+          'name',
+          Parsing.Data.Conditions.IN,
+          ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
+          new Parsing.Rules.Error(Errors.EXPECTED_TAG_CLOSE, tagClose)
+        ),
         new Parsing.Rules.All(
           new Parsing.Rules.Error(Errors.EXPECTED_TAG_ENDING, tagEnding),
           optionalSpace,

@@ -1,3 +1,4 @@
+export { Condition } from './condition';
 export { End } from './end';
 export { Extract } from './extract';
 export { Match } from './match';

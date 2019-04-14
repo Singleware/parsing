@@ -4,7 +4,7 @@
  */
 
 /**
- * Tree node, directions enumeration.
+ * Data directions enumeration.
  */
 export enum Directions {
   LEFT = 0x01,

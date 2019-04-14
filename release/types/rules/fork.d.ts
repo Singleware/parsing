@@ -2,9 +2,9 @@ import * as Class from '@singleware/class';
 import { Rule } from '../rule';
 import { Context } from '../context';
 /**
- * Decision rule, rule class.
+ * Fork rule, rule class.
  */
-export declare class Decision extends Class.Null implements Rule {
+export declare class Fork extends Class.Null implements Rule {
     /**
      * Condition rule.
      */
@@ -20,6 +20,8 @@ export declare class Decision extends Class.Null implements Rule {
     /**
      * Default constructor.
      * @param condition Condition rule.
+     * @param success Success rule.
+     * @param failure Failure rule.
      */
     constructor(condition: Rule, success: Rule, failure: Rule);
     /**

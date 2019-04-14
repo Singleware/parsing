@@ -14,15 +14,15 @@ const Class = require("@singleware/class");
 const Testing = require("@singleware/testing");
 const Parsing = require("../../source");
 /**
- * Decision rule, test case.
+ * Fork rule, test case.
  */
-let Decision = class Decision extends Testing.Case {
+let Fork = class Fork extends Testing.Case {
     /**
      * Test method.
      */
     decision() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), '\\a0a');
-        const rule = new Parsing.Rules.Decision(new Parsing.Rules.Char.Expect('\\'), new Parsing.Rules.Char.Any(), new Parsing.Rules.Char.Digit());
+        const rule = new Parsing.Rules.Fork(new Parsing.Rules.Char.Expect('\\'), new Parsing.Rules.Char.Any(), new Parsing.Rules.Char.Digit());
         // First
         this.isTrue(rule.consume(context));
         this.areSame(context.offset, 2);
@@ -37,9 +37,9 @@ let Decision = class Decision extends Testing.Case {
 __decorate([
     Testing.Method(),
     Class.Public()
-], Decision.prototype, "decision", null);
-Decision = __decorate([
+], Fork.prototype, "decision", null);
+Fork = __decorate([
     Class.Describe()
-], Decision);
-exports.Decision = Decision;
-//# sourceMappingURL=decision.spec.js.map
+], Fork);
+exports.Fork = Fork;
+//# sourceMappingURL=fork.spec.js.map

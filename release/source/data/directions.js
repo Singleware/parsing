@@ -5,7 +5,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * Tree node, directions enumeration.
+ * Data directions enumeration.
  */
 var Directions;
 (function (Directions) {
