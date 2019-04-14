@@ -19,7 +19,7 @@ let Node = class Node extends Class.Null {
      * Default constructor.
      * @param type Node type.
      * @param offset Optional node offset.
-     * @param data Optional node data.
+     * @param data Optional node data map.
      */
     constructor(type, offset, data) {
         super();

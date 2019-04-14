@@ -1,4 +1,5 @@
 import * as Class from '@singleware/class';
+import { Map } from './map';
 /**
  * Tree node interface.
  */
@@ -31,9 +32,9 @@ export declare class Node extends Class.Null {
      * Default constructor.
      * @param type Node type.
      * @param offset Optional node offset.
-     * @param data Optional node data.
+     * @param data Optional node data map.
      */
-    constructor(type: string, offset?: number, data?: any);
+    constructor(type: string, offset?: number, data?: Map);
     /**
      * Gets the node type.
      */
@@ -45,7 +46,7 @@ export declare class Node extends Class.Null {
     /**
      * Gets the node data.
      */
-    readonly data: any;
+    readonly data: Map;
     /**
      * Gets the left node.
      */

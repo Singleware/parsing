@@ -86,6 +86,7 @@ let Context = Context_1 = class Context extends Class.Null {
     fail(code) {
         this.contentError.code = code;
         this.contentError.offset = this.contentOffset;
+        this.contentError.data = this.contentTree.data;
         return this;
     }
     /**
@@ -95,6 +96,7 @@ let Context = Context_1 = class Context extends Class.Null {
     success() {
         this.contentError.code = 0;
         this.contentError.offset = -1;
+        this.contentError.data = void 0;
         return this;
     }
     /**

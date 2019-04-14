@@ -1,6 +1,6 @@
 import * as Class from '@singleware/class';
 import * as Data from './data';
-import { Error } from './error';
+import { Error } from './data/error';
 /**
  * Context class.
  */

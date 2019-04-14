@@ -1,7 +1,6 @@
-export { Rule } from './rule';
-export { Error } from './error';
 export { Context } from './context';
-import * as Rules from './rules';
-export import Rules = Rules;
+export { Rule } from './rule';
 import * as Data from './data';
 export import Data = Data;
+import * as Rules from './rules';
+export import Rules = Rules;

@@ -6,7 +6,7 @@ import * as Class from '@singleware/class';
 
 import * as Data from './data';
 
-import { Error } from './error';
+import { Error } from './data/error';
 
 /**
  * Context class.
@@ -121,6 +121,7 @@ export class Context extends Class.Null {
   public fail(code: number): Context {
     this.contentError.code = code;
     this.contentError.offset = this.contentOffset;
+    this.contentError.data = this.contentTree.data;
     return this;
   }
 
@@ -132,6 +133,7 @@ export class Context extends Class.Null {
   public success(): Context {
     this.contentError.code = 0;
     this.contentError.offset = -1;
+    this.contentError.data = void 0;
     return this;
   }
 

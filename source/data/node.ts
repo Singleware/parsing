@@ -4,6 +4,8 @@
  */
 import * as Class from '@singleware/class';
 
+import { Map } from './map';
+
 /**
  * Tree node interface.
  */
@@ -25,7 +27,7 @@ export class Node extends Class.Null {
    * Node data.
    */
   @Class.Private()
-  private nodeData = <any>{};
+  private nodeData = <Map>{};
 
   /**
    * Left tree node.
@@ -49,9 +51,9 @@ export class Node extends Class.Null {
    * Default constructor.
    * @param type Node type.
    * @param offset Optional node offset.
-   * @param data Optional node data.
+   * @param data Optional node data map.
    */
-  constructor(type: string, offset?: number, data?: any) {
+  constructor(type: string, offset?: number, data?: Map) {
     super();
     this.nodeType = type;
     this.nodeOffset = offset || -1;
@@ -78,7 +80,7 @@ export class Node extends Class.Null {
    * Gets the node data.
    */
   @Class.Public()
-  public get data(): any {
+  public get data(): Map {
     return this.nodeData;
   }
 

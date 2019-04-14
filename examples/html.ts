@@ -9,11 +9,11 @@ import * as Rules from '../source/rules';
  * Errors enumerations.
  */
 enum Errors {
-  EXPECTED_TAG_OPEN,
-  EXPECTED_TAG_CLOSE,
+  EXPECTED_TAG_OPENING,
+  EXPECTED_TAG_CLOSING,
   EXPECTED_TAG_ENDING,
   EXPECTED_TAG_NAME,
-  EXPECTED_TAG_NAME_MATCHING,
+  EXPECTED_TAG_CLOSE,
   EXPECTED_END_OF_CONTENT
 }
 
@@ -21,12 +21,12 @@ enum Errors {
  * Prints the specified error entity.
  * @param error Error entity.
  */
-function printError(error: Parsing.Error): void {
+function printError(error: Parsing.Data.Error): void {
   switch (error.code) {
-    case Errors.EXPECTED_TAG_OPEN:
+    case Errors.EXPECTED_TAG_OPENING:
       console.log(`Expected token '<' does not found.`);
       break;
-    case Errors.EXPECTED_TAG_CLOSE:
+    case Errors.EXPECTED_TAG_CLOSING:
       console.log(`Expected token '>' does not found.`);
       break;
     case Errors.EXPECTED_TAG_ENDING:
@@ -35,8 +35,8 @@ function printError(error: Parsing.Error): void {
     case Errors.EXPECTED_TAG_NAME:
       console.log(`Expected tag name does not found.`);
       break;
-    case Errors.EXPECTED_TAG_NAME_MATCHING:
-      console.log(`Expected tag name matching has been failed.`);
+    case Errors.EXPECTED_TAG_CLOSE:
+      console.log(`Expected end of tag '${error.data ? error.data['name'] : ''}', tag closing has been failed.`);
       break;
     case Errors.EXPECTED_END_OF_CONTENT:
       console.log(`Expected end of content does not found.`);
@@ -179,7 +179,7 @@ element = new Rules.Status.Success(
     'element',
     Parsing.Data.Directions.NEXT,
     new Rules.Flow.All(
-      new Rules.Status.Error(Errors.EXPECTED_TAG_OPEN, tagOpen),
+      new Rules.Status.Error(Errors.EXPECTED_TAG_OPENING, tagOpen),
       optionalSpace,
       new Rules.Status.Error(Errors.EXPECTED_TAG_NAME, new Rules.Data.Extract('name', tagName)),
       optionalSpace,
@@ -195,27 +195,27 @@ element = new Rules.Status.Success(
           'name',
           Parsing.Data.Conditions.IN,
           ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
-          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSE, tagClose)
+          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSING, tagClose)
         ),
         new Rules.Flow.All(
           new Rules.Status.Error(Errors.EXPECTED_TAG_ENDING, tagEnding),
           optionalSpace,
-          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSE, tagClose)
+          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSING, tagClose)
         ),
         new Rules.Flow.All(
-          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSE, tagClose),
+          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSING, tagClose),
           optionalSpace,
           new Rules.Data.Node(
             Parsing.Data.Directions.NEXT,
             Parsing.Data.Directions.RIGHT,
             new Rules.Flow.Option(new Rules.Flow.Reference(() => collection))
           ),
-          new Rules.Status.Error(Errors.EXPECTED_TAG_OPEN, tagOpen),
+          new Rules.Status.Error(Errors.EXPECTED_TAG_OPENING, tagOpen),
           optionalSpace,
           new Rules.Flow.All(new Rules.Status.Error(Errors.EXPECTED_TAG_ENDING, tagEnding), optionalSpace),
-          new Rules.Status.Error(Errors.EXPECTED_TAG_NAME_MATCHING, new Rules.Data.Match('name', tagName)),
+          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSE, new Rules.Data.Match('name', tagName)),
           optionalSpace,
-          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSE, tagClose)
+          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSING, tagClose)
         )
       )
     )
