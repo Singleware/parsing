@@ -11,7 +11,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Trees = require("../trees");
 const option_1 = require("./option");
 /**
  * Require any rule, rule class.
@@ -29,31 +28,16 @@ let Any = class Any extends Class.Null {
         }
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        for (const rule of this.rules) {
-            if (rule.peek(context)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
+    consume(context) {
         for (const rule of this.rules) {
-            const tempContext = context.copy();
-            const tempNode = new Trees.Node('temp', context.offset, node.data);
-            if (rule.consume(tempContext, tempNode)) {
-                context.forward(tempContext.offset - context.offset);
-                node.assignNodes(tempNode);
+            const temp = context.copy();
+            if (rule.consume(temp)) {
+                context.forward(temp.offset - context.offset);
+                context.tree.assignNodes(temp.tree);
                 return true;
             }
         }
@@ -63,9 +47,6 @@ let Any = class Any extends Class.Null {
 __decorate([
     Class.Private()
 ], Any.prototype, "rules", void 0);
-__decorate([
-    Class.Public()
-], Any.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Any.prototype, "consume", null);

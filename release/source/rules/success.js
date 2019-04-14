@@ -24,22 +24,14 @@ let Success = class Success extends Class.Null {
         this.rule = rule;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        if (this.rule.consume(context, node)) {
-            return context.success(), true;
+    consume(context) {
+        if (this.rule.consume(context)) {
+            context.success();
+            return true;
         }
         return false;
     }
@@ -47,9 +39,6 @@ let Success = class Success extends Class.Null {
 __decorate([
     Class.Private()
 ], Success.prototype, "rule", void 0);
-__decorate([
-    Class.Public()
-], Success.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Success.prototype, "consume", null);

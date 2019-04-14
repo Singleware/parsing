@@ -18,15 +18,14 @@ export class End extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public end(): void {
-    const contextA = new Parsing.Context('');
-    const contextB = new Parsing.Context('x');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const contextA = new Parsing.Context(new Parsing.Data.Node('test'), '');
+    const contextB = new Parsing.Context(new Parsing.Data.Node('test'), 'x');
     const rule = new Parsing.Rules.Data.End();
     // Success
-    this.isTrue(rule.consume(contextA, tree));
+    this.isTrue(rule.consume(contextA));
     this.areSame(contextA.offset, 0);
     // Expected error (No end of content)
-    this.isFalse(rule.consume(contextB, tree));
+    this.isFalse(rule.consume(contextB));
     this.areSame(contextB.offset, 0);
   }
 }

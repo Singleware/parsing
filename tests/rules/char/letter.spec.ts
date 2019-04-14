@@ -18,16 +18,15 @@ export class Letter extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public charLowerLetter(): void {
-    const context = new Parsing.Context('abcdefghijklmnopqrstuvwxyzç');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test', 0), 'abcdefghijklmnopqrstuvwxyzç');
     const rule = new Parsing.Rules.Char.Letter(false);
     // Letters from 'a' to 'z'
     for (let i = 0; i < 26; ++i) {
-      this.isTrue(rule.consume(context, tree));
+      this.isTrue(rule.consume(context));
       this.areSame(context.offset, i + 1);
     }
     // Expected error
-    this.isFalse(rule.consume(context, tree));
+    this.isFalse(rule.consume(context));
     this.areSame(context.offset, 26);
   }
 
@@ -37,16 +36,15 @@ export class Letter extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public charUpperLetter(): void {
-    const context = new Parsing.Context('ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
     const rule = new Parsing.Rules.Char.Letter(true);
     // Letters from 'A' to 'Z'
     for (let i = 0; i < 26; ++i) {
-      this.isTrue(rule.consume(context, tree));
+      this.isTrue(rule.consume(context));
       this.areSame(context.offset, i + 1);
     }
     // Expected error (No letter available)
-    this.isFalse(rule.consume(context, tree));
+    this.isFalse(rule.consume(context));
     this.areSame(context.offset, 26);
   }
 }

@@ -11,7 +11,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Trees = require("../trees");
 /**
  * Option rule, rule class.
  */
@@ -25,25 +24,15 @@ let Option = class Option extends Class.Null {
         this.rule = rule;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        const tempContext = context.copy();
-        const tempNode = new Trees.Node('temp', context.offset, node.data);
-        if (this.rule.consume(tempContext, tempNode)) {
-            context.forward(tempContext.offset - context.offset);
-            node.assignNodes(tempNode);
+    consume(context) {
+        const temp = context.copy();
+        if (this.rule.consume(temp)) {
+            context.forward(temp.offset - context.offset);
+            context.tree.assignNodes(temp.tree);
         }
         return true;
     }
@@ -51,9 +40,6 @@ let Option = class Option extends Class.Null {
 __decorate([
     Class.Private()
 ], Option.prototype, "rule", void 0);
-__decorate([
-    Class.Public()
-], Option.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Option.prototype, "consume", null);

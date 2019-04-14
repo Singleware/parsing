@@ -18,11 +18,10 @@ export class Option extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public option(): void {
-    const context = new Parsing.Context('x');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'x');
     const rule = new Parsing.Rules.Option(new Parsing.Rules.Char.Expect('a'));
     // Expected success (Always true)
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 0);
   }
 }

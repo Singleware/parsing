@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Trees = require("../../trees");
+const Data = require("../../data");
 /**
  * Node rule, rule class.
  */
@@ -35,11 +35,11 @@ let Node = class Node extends Class.Null {
      */
     getSourceNode(tree) {
         switch (this.source) {
-            case Trees.Directions.LEFT:
+            case Data.Directions.LEFT:
                 return tree.left;
-            case Trees.Directions.NEXT:
+            case Data.Directions.NEXT:
                 return tree.next;
-            case Trees.Directions.RIGHT:
+            case Data.Directions.RIGHT:
                 return tree.right;
         }
     }
@@ -50,41 +50,33 @@ let Node = class Node extends Class.Null {
      */
     attachSourceNode(target, source) {
         switch (this.target) {
-            case Trees.Directions.LEFT:
+            case Data.Directions.LEFT:
                 target.attachLeft(source);
                 break;
-            case Trees.Directions.NEXT:
+            case Data.Directions.NEXT:
                 target.attachNext(source);
                 break;
-            case Trees.Directions.RIGHT:
+            case Data.Directions.RIGHT:
                 target.attachRight(source);
                 break;
         }
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        const tempNode = new Trees.Node('temp', context.offset, node.data);
-        if (this.rule.consume(context, tempNode)) {
-            const source = this.getSourceNode(tempNode);
+    consume(context) {
+        const temp = context.copy();
+        const result = this.rule.consume(temp);
+        context.forward(temp.offset - context.offset);
+        if (result) {
+            const source = this.getSourceNode(temp.tree);
             if (source) {
-                this.attachSourceNode(node, source);
+                this.attachSourceNode(context.tree, source);
             }
-            return true;
         }
-        return false;
+        return result;
     }
 };
 __decorate([
@@ -102,9 +94,6 @@ __decorate([
 __decorate([
     Class.Private()
 ], Node.prototype, "attachSourceNode", null);
-__decorate([
-    Class.Public()
-], Node.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Node.prototype, "consume", null);

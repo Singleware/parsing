@@ -18,20 +18,19 @@ export class Extract extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public dataExtract(): void {
-    const context = new Parsing.Context('defabcadg');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
     const rule = new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'));
     // First success
-    this.isTrue(rule.consume(context, tree));
-    this.areSame(tree.data['name'], 'def');
+    this.isTrue(rule.consume(context));
+    this.areSame(context.tree.data['name'], 'def');
     this.areSame(context.offset, 3);
     // Second success
-    this.isTrue(rule.consume(context, tree));
-    this.areSame(tree.data['name'], 'abc');
+    this.isTrue(rule.consume(context));
+    this.areSame(context.tree.data['name'], 'abc');
     this.areSame(context.offset, 6);
     // Expected error (No choice available)
-    this.isFalse(rule.consume(context, tree));
-    this.areSame(tree.data['name'], 'abc');
+    this.isFalse(rule.consume(context));
+    this.areSame(context.tree.data['name'], 'abc');
     this.areSame(context.offset, 6);
   }
 }

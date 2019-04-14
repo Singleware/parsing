@@ -21,28 +21,26 @@ let Letters = class Letters extends Testing.Case {
      * Lowercase test method.
      */
     stringLowerLetter() {
-        const context = new Parsing.Context('abcdefghijklmnopqrstuvwxyzç');
-        const tree = new Parsing.Trees.Node('test', 0);
+        const context = new Parsing.Context(new Parsing.Data.Node('test', 0), 'abcdefghijklmnopqrstuvwxyzç');
         const rule = new Parsing.Rules.String.Letters(false);
         // Letters from 'a' to 'z'
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 26);
         // Expected error
-        this.isFalse(rule.consume(context, tree));
+        this.isFalse(rule.consume(context));
         this.areSame(context.offset, 26);
     }
     /**
      * Uppercase test method.
      */
     stringUpperLetter() {
-        const context = new Parsing.Context('ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
-        const tree = new Parsing.Trees.Node('test', 0);
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
         const rule = new Parsing.Rules.String.Letters(true);
         // Letters from 'A' to 'Z'
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 26);
         // Expected error (No letter available)
-        this.isFalse(rule.consume(context, tree));
+        this.isFalse(rule.consume(context));
         this.areSame(context.offset, 26);
     }
 };

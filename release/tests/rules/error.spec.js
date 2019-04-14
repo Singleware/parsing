@@ -21,16 +21,15 @@ let Error = class Error extends Testing.Case {
      * Test method.
      */
     error() {
-        const context = new Parsing.Context('ab');
-        const tree = new Parsing.Trees.Node('test', 0);
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'ab');
         const rule = new Parsing.Rules.Error(0xa0, new Parsing.Rules.Char.Expect('a'));
         // Success (without error data)
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 1);
         this.areSame(context.error.code, 0);
         this.areSame(context.error.offset, -1);
         // Expected error (with error data)
-        this.isFalse(rule.consume(context, tree));
+        this.isFalse(rule.consume(context));
         this.areSame(context.offset, 1);
         this.areSame(context.error.code, 0xa0);
         this.areSame(context.error.offset, 1);

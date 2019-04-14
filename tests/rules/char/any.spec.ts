@@ -18,14 +18,13 @@ export class Any extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public charAny(): void {
-    const context = new Parsing.Context('x');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'x');
     const rule = new Parsing.Rules.Char.Any();
     // Success
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 1);
     // Expected error (No content available)
-    this.isFalse(rule.consume(context, tree));
+    this.isFalse(rule.consume(context));
     this.areSame(context.offset, 1);
   }
 }

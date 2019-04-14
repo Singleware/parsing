@@ -18,16 +18,15 @@ export class Range extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public charRange(): void {
-    const context = new Parsing.Context('efghij');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'efghij');
     const rule = new Parsing.Rules.Char.Range('e', 'i');
     // Letters from 'e' to 'i'
     for (let i = 0; i < 5; ++i) {
-      this.isTrue(rule.consume(context, tree));
+      this.isTrue(rule.consume(context));
       this.areSame(context.offset, i + 1);
     }
     // Expected error (No range char available)
-    this.isFalse(rule.consume(context, tree));
+    this.isFalse(rule.consume(context));
     this.areSame(context.offset, 5);
   }
 }

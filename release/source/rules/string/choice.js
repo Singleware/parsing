@@ -24,29 +24,16 @@ let Choice = class Choice extends Class.Null {
         this.expected = strings;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        for (const expected of this.expected) {
-            if (context.content.substr(context.offset, expected.length) === expected) {
-                return true;
-            }
-        }
-        return false;
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
+    consume(context) {
         for (const expected of this.expected) {
             const consumed = context.content.substr(context.offset, expected.length);
             if (expected === consumed) {
-                return context.forward(expected.length), true;
+                context.forward(expected.length);
+                return true;
             }
         }
         return false;
@@ -55,9 +42,6 @@ let Choice = class Choice extends Class.Null {
 __decorate([
     Class.Private()
 ], Choice.prototype, "expected", void 0);
-__decorate([
-    Class.Public()
-], Choice.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Choice.prototype, "consume", null);

@@ -18,14 +18,13 @@ export class Expect extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public charExpect(): void {
-    const context = new Parsing.Context('xy');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'xy');
     const rule = new Parsing.Rules.Char.Expect('x');
     // Success
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 1);
     // Expected error (No char expected)
-    this.isFalse(rule.consume(context, tree));
+    this.isFalse(rule.consume(context));
     this.areSame(context.offset, 1);
   }
 }

@@ -21,27 +21,26 @@ let Node = class Node extends Testing.Case {
      * Test method.
      */
     dataNode() {
-        const context = new Parsing.Context('defabcadg');
-        const tree = new Parsing.Trees.Node('test', 0);
-        const rule = new Parsing.Rules.Data.Node(Parsing.Trees.Directions.NEXT, Parsing.Trees.Directions.LEFT, new Parsing.Rules.Data.Tree('choice', Parsing.Trees.Directions.NEXT, new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'))));
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
+        const rule = new Parsing.Rules.Data.Node(Parsing.Data.Directions.NEXT, Parsing.Data.Directions.LEFT, new Parsing.Rules.Data.Tree('choice', Parsing.Data.Directions.NEXT, new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'))));
         // First success
-        this.isTrue(rule.consume(context, tree));
-        this.areSame(tree.left.type, 'choice');
-        this.areSame(tree.left.data['name'], 'def');
+        this.isTrue(rule.consume(context));
+        this.areSame(context.tree.left.type, 'choice');
+        this.areSame(context.tree.left.data['name'], 'def');
         this.areSame(context.offset, 3);
         // Second success
-        this.isTrue(rule.consume(context, tree));
-        this.areSame(tree.left.type, 'choice');
-        this.areSame(tree.left.data['name'], 'def');
-        this.areSame(tree.left.left.type, 'choice');
-        this.areSame(tree.left.left.data['name'], 'abc');
+        this.isTrue(rule.consume(context));
+        this.areSame(context.tree.left.type, 'choice');
+        this.areSame(context.tree.left.data['name'], 'def');
+        this.areSame(context.tree.left.left.type, 'choice');
+        this.areSame(context.tree.left.left.data['name'], 'abc');
         this.areSame(context.offset, 6);
         // Expected error (No choice available)
-        this.isFalse(rule.consume(context, tree));
-        this.areSame(tree.left.type, 'choice');
-        this.areSame(tree.left.data['name'], 'def');
-        this.areSame(tree.left.left.type, 'choice');
-        this.areSame(tree.left.left.data['name'], 'abc');
+        this.isFalse(rule.consume(context));
+        this.areSame(context.tree.left.type, 'choice');
+        this.areSame(context.tree.left.data['name'], 'def');
+        this.areSame(context.tree.left.left.type, 'choice');
+        this.areSame(context.tree.left.left.data['name'], 'abc');
         this.areSame(context.offset, 6);
     }
 };

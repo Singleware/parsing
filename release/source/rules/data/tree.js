@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Trees = require("../../trees");
+const Data = require("../../data");
 /**
  * Tree rule, rule class.
  */
@@ -35,37 +35,31 @@ let Tree = class Tree extends Class.Null {
      */
     attachNode(target, source) {
         switch (this.direction) {
-            case Trees.Directions.LEFT:
+            case Data.Directions.LEFT:
                 target.attachLeft(source);
                 break;
-            case Trees.Directions.NEXT:
+            case Data.Directions.NEXT:
                 target.attachNext(source);
                 break;
-            case Trees.Directions.RIGHT:
+            case Data.Directions.RIGHT:
                 target.attachRight(source);
                 break;
         }
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        const tempNode = new Trees.Node(this.type, context.offset);
-        if (this.rule.consume(context, tempNode)) {
-            return this.attachNode(node, tempNode), true;
+    consume(context) {
+        const tree = new Data.Node(this.type, context.offset);
+        const temp = context.copy(tree);
+        const result = this.rule.consume(temp);
+        context.forward(temp.offset - context.offset);
+        if (result) {
+            this.attachNode(context.tree, temp.tree);
         }
-        return false;
+        return result;
     }
 };
 __decorate([
@@ -80,9 +74,6 @@ __decorate([
 __decorate([
     Class.Private()
 ], Tree.prototype, "attachNode", null);
-__decorate([
-    Class.Public()
-], Tree.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Tree.prototype, "consume", null);

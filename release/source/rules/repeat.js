@@ -11,7 +11,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Trees = require("../trees");
 const option_1 = require("./option");
 /**
  * Repeat rule, rule class.
@@ -28,29 +27,19 @@ let Repeat = class Repeat extends Class.Null {
         }
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        if (this.rule.consume(context, node)) {
+    consume(context) {
+        if (this.rule.consume(context)) {
             while (context.offset < context.length) {
-                const tempContext = context.copy();
-                const tempNode = new Trees.Node('temp', context.offset, node.data);
-                if (!this.rule.consume(tempContext, tempNode)) {
+                const temp = context.copy();
+                if (!this.rule.consume(temp)) {
                     break;
                 }
-                context.forward(tempContext.offset - context.offset);
-                node.assignNodes(tempNode);
+                context.forward(temp.offset - context.offset);
+                context.tree.assignNodes(temp.tree);
             }
             return true;
         }
@@ -60,9 +49,6 @@ let Repeat = class Repeat extends Class.Null {
 __decorate([
     Class.Private()
 ], Repeat.prototype, "rule", void 0);
-__decorate([
-    Class.Public()
-], Repeat.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Repeat.prototype, "consume", null);

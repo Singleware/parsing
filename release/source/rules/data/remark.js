@@ -28,22 +28,13 @@ let Remark = class Remark extends Class.Null {
         this.rule = rule;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        if (this.rule.consume(context, node)) {
-            node.data[this.property] = this.value;
+    consume(context) {
+        if (this.rule.consume(context)) {
+            context.tree.data[this.property] = this.value;
             return true;
         }
         return false;
@@ -58,9 +49,6 @@ __decorate([
 __decorate([
     Class.Private()
 ], Remark.prototype, "rule", void 0);
-__decorate([
-    Class.Public()
-], Remark.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Remark.prototype, "consume", null);

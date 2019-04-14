@@ -21,14 +21,13 @@ let Expect = class Expect extends Testing.Case {
      * Test method.
      */
     stringExpect() {
-        const context = new Parsing.Context('abcx');
-        const tree = new Parsing.Trees.Node('test', 0);
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'abcx');
         const rule = new Parsing.Rules.String.Expect('abc');
         // Success
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 3);
         // Expected error (No char expected)
-        this.isFalse(rule.consume(context, tree));
+        this.isFalse(rule.consume(context));
         this.areSame(context.offset, 3);
     }
 };

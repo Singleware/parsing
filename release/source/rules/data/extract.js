@@ -26,23 +26,14 @@ let Extract = class Extract extends Class.Null {
         this.rule = rule;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        const tempOffset = context.offset;
-        if (this.rule.consume(context, node)) {
-            node.data[this.property] = context.content.substring(tempOffset, context.offset);
+    consume(context) {
+        const start = context.offset;
+        if (this.rule.consume(context)) {
+            context.tree.data[this.property] = context.content.substring(start, context.offset);
             return true;
         }
         return false;
@@ -54,9 +45,6 @@ __decorate([
 __decorate([
     Class.Private()
 ], Extract.prototype, "rule", void 0);
-__decorate([
-    Class.Public()
-], Extract.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Extract.prototype, "consume", null);

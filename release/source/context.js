@@ -13,17 +13,19 @@ var Context_1;
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
+const Data = require("./data");
 /**
  * Context class.
  */
 let Context = Context_1 = class Context extends Class.Null {
     /**
      * Default constructor.
+     * @param tree Content tree.
      * @param content Context content.
      * @param offset Initial content offset.
      * @param length Maximum content length.
      */
-    constructor(content, offset, length) {
+    constructor(tree, content, offset, length) {
         super();
         /**
          * Content error.
@@ -32,9 +34,16 @@ let Context = Context_1 = class Context extends Class.Null {
             code: 0,
             offset: -1
         };
+        this.contentTree = tree;
         this.contentString = content;
         this.contentOffset = offset || 0;
         this.contentLength = length || content.length;
+    }
+    /**
+     * Gets the content tree.
+     */
+    get tree() {
+        return this.contentTree;
     }
     /**
      * Gets the context content.
@@ -89,15 +98,20 @@ let Context = Context_1 = class Context extends Class.Null {
         return this;
     }
     /**
-     * Creates a new copy from this context with an empty stack and no error data.
+     * Creates a new shallow copy of this context.
+     * @param tree Optional context tree.
      * @returns Returns the instance copy.
      */
-    copy() {
-        const newer = new Context_1(this.contentString, this.contentOffset, this.contentLength);
-        newer.contentError = this.contentError;
-        return newer;
+    copy(tree) {
+        const node = tree || new Data.Node('@temp', this.contentOffset, this.contentTree.data);
+        const context = new Context_1(node, this.contentString, this.contentOffset, this.contentLength);
+        context.contentError = this.contentError;
+        return context;
     }
 };
+__decorate([
+    Class.Private()
+], Context.prototype, "contentTree", void 0);
 __decorate([
     Class.Private()
 ], Context.prototype, "contentString", void 0);
@@ -110,6 +124,9 @@ __decorate([
 __decorate([
     Class.Private()
 ], Context.prototype, "contentError", void 0);
+__decorate([
+    Class.Public()
+], Context.prototype, "tree", null);
 __decorate([
     Class.Public()
 ], Context.prototype, "content", null);

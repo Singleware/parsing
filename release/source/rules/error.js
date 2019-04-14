@@ -26,21 +26,12 @@ let Error = class Error extends Class.Null {
         this.rule = rule;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        if (!this.rule.consume(context, node)) {
+    consume(context) {
+        if (!this.rule.consume(context)) {
             if (context.offset > context.error.offset) {
                 context.fail(this.code);
             }
@@ -55,9 +46,6 @@ __decorate([
 __decorate([
     Class.Private()
 ], Error.prototype, "rule", void 0);
-__decorate([
-    Class.Public()
-], Error.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Error.prototype, "consume", null);

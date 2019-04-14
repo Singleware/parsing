@@ -48,7 +48,7 @@ function printError(error: Parsing.Error): void {
  * @param node Current tree node.
  * @param offset Current level offset.
  */
-function printTree(node: Parsing.Trees.Node, offset: number): void {
+function printTree(node: Parsing.Data.Node, offset: number): void {
   const spacing = ' '.repeat(offset);
   switch (node.type) {
     case 'element':
@@ -75,9 +75,10 @@ function printTree(node: Parsing.Trees.Node, offset: number): void {
   }
 }
 
-const tree = new Parsing.Trees.Node('document', 0);
-
-const context = new Parsing.Context(`
+const tree = new Parsing.Data.Node('document');
+const context = new Parsing.Context(
+  tree,
+  `
 <html>
   <!-- Header begins -->
   <head>
@@ -91,7 +92,8 @@ const context = new Parsing.Context(`
   </body>
   <script></script>
   <!-- Body ends -->
-</html>`);
+</html>`
+);
 
 const singleQuotes = new Parsing.Rules.Char.Expect("'");
 const doubleQuotes = new Parsing.Rules.Char.Expect('"');
@@ -148,7 +150,7 @@ let document: Parsing.Rule;
 text = new Parsing.Rules.Success(
   new Parsing.Rules.Data.Tree(
     'text',
-    Parsing.Trees.Directions.NEXT,
+    Parsing.Data.Directions.NEXT,
     new Parsing.Rules.Data.Extract('content', new Parsing.Rules.Repeat(new Parsing.Rules.Not(tagOpen, content)))
   )
 );
@@ -158,7 +160,7 @@ comment = new Parsing.Rules.Success(
     commentOpen,
     new Parsing.Rules.Data.Tree(
       'comment',
-      Parsing.Trees.Directions.NEXT,
+      Parsing.Data.Directions.NEXT,
       new Parsing.Rules.Data.Extract('content', new Parsing.Rules.Repeat(new Parsing.Rules.Not(commentClose, content)))
     ),
     commentClose
@@ -167,7 +169,7 @@ comment = new Parsing.Rules.Success(
 
 parameters = new Parsing.Rules.Data.Tree(
   'attribute',
-  Parsing.Trees.Directions.NEXT,
+  Parsing.Data.Directions.NEXT,
   new Parsing.Rules.All(
     new Parsing.Rules.Data.Extract('name', paramName),
     optionalSpace,
@@ -178,7 +180,7 @@ parameters = new Parsing.Rules.Data.Tree(
 element = new Parsing.Rules.Success(
   new Parsing.Rules.Data.Tree(
     'element',
-    Parsing.Trees.Directions.NEXT,
+    Parsing.Data.Directions.NEXT,
     new Parsing.Rules.All(
       new Parsing.Rules.Error(Errors.EXPECTED_TAG_OPEN, tagOpen),
       optionalSpace,
@@ -186,8 +188,8 @@ element = new Parsing.Rules.Success(
       optionalSpace,
       new Parsing.Rules.Option(
         new Parsing.Rules.Data.Node(
-          Parsing.Trees.Directions.NEXT,
-          Parsing.Trees.Directions.LEFT,
+          Parsing.Data.Directions.NEXT,
+          Parsing.Data.Directions.LEFT,
           new Parsing.Rules.Repeat(new Parsing.Rules.All(parameters, optionalSpace))
         )
       ),
@@ -201,8 +203,8 @@ element = new Parsing.Rules.Success(
           new Parsing.Rules.Error(Errors.EXPECTED_TAG_CLOSE, tagClose),
           optionalSpace,
           new Parsing.Rules.Data.Node(
-            Parsing.Trees.Directions.NEXT,
-            Parsing.Trees.Directions.RIGHT,
+            Parsing.Data.Directions.NEXT,
+            Parsing.Data.Directions.RIGHT,
             new Parsing.Rules.Option(new Parsing.Rules.Reference(() => collection))
           ),
           new Parsing.Rules.Error(Errors.EXPECTED_TAG_OPEN, tagOpen),
@@ -224,7 +226,7 @@ document = new Parsing.Rules.All(
   new Parsing.Rules.Error(Errors.EXPECTED_END_OF_CONTENT, new Parsing.Rules.Data.End())
 );
 
-if (document.consume(context, tree)) {
+if (document.consume(context)) {
   console.log(`Context analysis succeed.`);
   printTree(tree, 0);
 } else {

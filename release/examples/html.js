@@ -74,8 +74,8 @@ function printTree(node, offset) {
         printTree(node.next, offset);
     }
 }
-const tree = new Parsing.Trees.Node('document', 0);
-const context = new Parsing.Context(`
+const tree = new Parsing.Data.Node('document');
+const context = new Parsing.Context(tree, `
 <html>
   <!-- Header begins -->
   <head>
@@ -113,13 +113,13 @@ let parameters;
 let element;
 let collection;
 let document;
-text = new Parsing.Rules.Success(new Parsing.Rules.Data.Tree('text', Parsing.Trees.Directions.NEXT, new Parsing.Rules.Data.Extract('content', new Parsing.Rules.Repeat(new Parsing.Rules.Not(tagOpen, content)))));
-comment = new Parsing.Rules.Success(new Parsing.Rules.All(commentOpen, new Parsing.Rules.Data.Tree('comment', Parsing.Trees.Directions.NEXT, new Parsing.Rules.Data.Extract('content', new Parsing.Rules.Repeat(new Parsing.Rules.Not(commentClose, content)))), commentClose));
-parameters = new Parsing.Rules.Data.Tree('attribute', Parsing.Trees.Directions.NEXT, new Parsing.Rules.All(new Parsing.Rules.Data.Extract('name', paramName), optionalSpace, new Parsing.Rules.Option(new Parsing.Rules.All(paramAssign, optionalSpace, new Parsing.Rules.Any(singleString, doubleString, noString)))));
-element = new Parsing.Rules.Success(new Parsing.Rules.Data.Tree('element', Parsing.Trees.Directions.NEXT, new Parsing.Rules.All(new Parsing.Rules.Error(Errors.EXPECTED_TAG_OPEN, tagOpen), optionalSpace, new Parsing.Rules.Error(Errors.EXPECTED_TAG_NAME, new Parsing.Rules.Data.Extract('name', tagName)), optionalSpace, new Parsing.Rules.Option(new Parsing.Rules.Data.Node(Parsing.Trees.Directions.NEXT, Parsing.Trees.Directions.LEFT, new Parsing.Rules.Repeat(new Parsing.Rules.All(parameters, optionalSpace)))), new Parsing.Rules.Any(new Parsing.Rules.All(new Parsing.Rules.Error(Errors.EXPECTED_TAG_ENDING, tagEnding), optionalSpace, new Parsing.Rules.Error(Errors.EXPECTED_TAG_CLOSE, tagClose)), new Parsing.Rules.All(new Parsing.Rules.Error(Errors.EXPECTED_TAG_CLOSE, tagClose), optionalSpace, new Parsing.Rules.Data.Node(Parsing.Trees.Directions.NEXT, Parsing.Trees.Directions.RIGHT, new Parsing.Rules.Option(new Parsing.Rules.Reference(() => collection))), new Parsing.Rules.Error(Errors.EXPECTED_TAG_OPEN, tagOpen), optionalSpace, new Parsing.Rules.All(new Parsing.Rules.Error(Errors.EXPECTED_TAG_ENDING, tagEnding), optionalSpace), new Parsing.Rules.Error(Errors.EXPECTED_TAG_NAME_MATCHING, new Parsing.Rules.Data.Match('name', tagName)), optionalSpace, new Parsing.Rules.Error(Errors.EXPECTED_TAG_CLOSE, tagClose))))));
+text = new Parsing.Rules.Success(new Parsing.Rules.Data.Tree('text', Parsing.Data.Directions.NEXT, new Parsing.Rules.Data.Extract('content', new Parsing.Rules.Repeat(new Parsing.Rules.Not(tagOpen, content)))));
+comment = new Parsing.Rules.Success(new Parsing.Rules.All(commentOpen, new Parsing.Rules.Data.Tree('comment', Parsing.Data.Directions.NEXT, new Parsing.Rules.Data.Extract('content', new Parsing.Rules.Repeat(new Parsing.Rules.Not(commentClose, content)))), commentClose));
+parameters = new Parsing.Rules.Data.Tree('attribute', Parsing.Data.Directions.NEXT, new Parsing.Rules.All(new Parsing.Rules.Data.Extract('name', paramName), optionalSpace, new Parsing.Rules.Option(new Parsing.Rules.All(paramAssign, optionalSpace, new Parsing.Rules.Any(singleString, doubleString, noString)))));
+element = new Parsing.Rules.Success(new Parsing.Rules.Data.Tree('element', Parsing.Data.Directions.NEXT, new Parsing.Rules.All(new Parsing.Rules.Error(Errors.EXPECTED_TAG_OPEN, tagOpen), optionalSpace, new Parsing.Rules.Error(Errors.EXPECTED_TAG_NAME, new Parsing.Rules.Data.Extract('name', tagName)), optionalSpace, new Parsing.Rules.Option(new Parsing.Rules.Data.Node(Parsing.Data.Directions.NEXT, Parsing.Data.Directions.LEFT, new Parsing.Rules.Repeat(new Parsing.Rules.All(parameters, optionalSpace)))), new Parsing.Rules.Any(new Parsing.Rules.All(new Parsing.Rules.Error(Errors.EXPECTED_TAG_ENDING, tagEnding), optionalSpace, new Parsing.Rules.Error(Errors.EXPECTED_TAG_CLOSE, tagClose)), new Parsing.Rules.All(new Parsing.Rules.Error(Errors.EXPECTED_TAG_CLOSE, tagClose), optionalSpace, new Parsing.Rules.Data.Node(Parsing.Data.Directions.NEXT, Parsing.Data.Directions.RIGHT, new Parsing.Rules.Option(new Parsing.Rules.Reference(() => collection))), new Parsing.Rules.Error(Errors.EXPECTED_TAG_OPEN, tagOpen), optionalSpace, new Parsing.Rules.All(new Parsing.Rules.Error(Errors.EXPECTED_TAG_ENDING, tagEnding), optionalSpace), new Parsing.Rules.Error(Errors.EXPECTED_TAG_NAME_MATCHING, new Parsing.Rules.Data.Match('name', tagName)), optionalSpace, new Parsing.Rules.Error(Errors.EXPECTED_TAG_CLOSE, tagClose))))));
 collection = new Parsing.Rules.Repeat(new Parsing.Rules.Any(whitespace, text, comment, element));
 document = new Parsing.Rules.All(new Parsing.Rules.Option(collection), new Parsing.Rules.Error(Errors.EXPECTED_END_OF_CONTENT, new Parsing.Rules.Data.End()));
-if (document.consume(context, tree)) {
+if (document.consume(context)) {
     console.log(`Context analysis succeed.`);
     printTree(tree, 0);
 }

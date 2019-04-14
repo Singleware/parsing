@@ -25,27 +25,13 @@ let All = class All extends Class.Null {
         this.rules = [rule, ...rules];
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        for (const rule of this.rules) {
-            if (!rule.peek(context)) {
-                return false;
-            }
-        }
-        return true;
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
+    consume(context) {
         for (const rule of this.rules) {
-            if (!rule.consume(context, node)) {
+            if (!rule.consume(context)) {
                 return false;
             }
         }
@@ -55,9 +41,6 @@ let All = class All extends Class.Null {
 __decorate([
     Class.Private()
 ], All.prototype, "rules", void 0);
-__decorate([
-    Class.Public()
-], All.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], All.prototype, "consume", null);

@@ -30,10 +30,10 @@ export declare class Node extends Class.Null {
     /**
      * Default constructor.
      * @param type Node type.
-     * @param offset Node offset.
-     * @param data Node data.
+     * @param offset Optional node offset.
+     * @param data Optional node data.
      */
-    constructor(type: string, offset: number, data?: any);
+    constructor(type: string, offset?: number, data?: any);
     /**
      * Gets the node type.
      */

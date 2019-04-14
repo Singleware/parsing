@@ -18,14 +18,13 @@ export class Repeat extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public repeat(): void {
-    const context = new Parsing.Context('xxxxxy');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'xxxxxy');
     const rule = new Parsing.Rules.Repeat(new Parsing.Rules.Char.Expect('x'));
     // Success
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 5);
     // Expected error (No char expected)
-    this.isFalse(rule.consume(context, tree));
+    this.isFalse(rule.consume(context));
     this.areSame(context.offset, 5);
   }
 }

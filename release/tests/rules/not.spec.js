@@ -21,20 +21,19 @@ let Not = class Not extends Testing.Case {
      * Test method.
      */
     not() {
-        const context = new Parsing.Context('abcd');
-        const tree = new Parsing.Trees.Node('test', 0);
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'abcd');
         const rule = new Parsing.Rules.Not(new Parsing.Rules.Char.Expect('d'), new Parsing.Rules.Char.Any());
         // First
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 1);
         // Second
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 2);
         // Third
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 3);
         // Expected error (No allowed character)
-        this.isFalse(rule.consume(context, tree));
+        this.isFalse(rule.consume(context));
         this.areSame(context.offset, 3);
     }
 };

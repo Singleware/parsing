@@ -9,5 +9,5 @@ export { Context } from './context';
 import * as Rules from './rules';
 export import Rules = Rules;
 
-import * as Trees from './trees';
-export import Trees = Trees;
+import * as Data from './data';
+export import Data = Data;

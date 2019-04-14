@@ -18,14 +18,13 @@ export class Digits extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public stringDigit(): void {
-    const context = new Parsing.Context('0123456789a');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), '0123456789a');
     const rule = new Parsing.Rules.String.Digits();
     // Digits from 0 to 9 (Success)
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 10);
     // Expected error (No digit available)
-    this.isFalse(rule.consume(context, tree));
+    this.isFalse(rule.consume(context));
     this.areSame(context.offset, 10);
   }
 }

@@ -48,13 +48,13 @@ export class Node extends Class.Null {
   /**
    * Default constructor.
    * @param type Node type.
-   * @param offset Node offset.
-   * @param data Node data.
+   * @param offset Optional node offset.
+   * @param data Optional node data.
    */
-  constructor(type: string, offset: number, data?: any) {
+  constructor(type: string, offset?: number, data?: any) {
     super();
     this.nodeType = type;
-    this.nodeOffset = offset;
+    this.nodeOffset = offset || -1;
     this.nodeData = data || {};
   }
 

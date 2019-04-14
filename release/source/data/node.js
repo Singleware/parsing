@@ -18,8 +18,8 @@ let Node = class Node extends Class.Null {
     /**
      * Default constructor.
      * @param type Node type.
-     * @param offset Node offset.
-     * @param data Node data.
+     * @param offset Optional node offset.
+     * @param data Optional node data.
      */
     constructor(type, offset, data) {
         super();
@@ -28,7 +28,7 @@ let Node = class Node extends Class.Null {
          */
         this.nodeData = {};
         this.nodeType = type;
-        this.nodeOffset = offset;
+        this.nodeOffset = offset || -1;
         this.nodeData = data || {};
     }
     /**

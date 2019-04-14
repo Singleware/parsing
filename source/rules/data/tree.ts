@@ -4,7 +4,7 @@
  */
 import * as Class from '@singleware/class';
 
-import * as Trees from '../../trees';
+import * as Data from '../../data';
 
 import { Rule } from '../../rule';
 import { Context } from '../../context';
@@ -24,7 +24,7 @@ export class Tree extends Class.Null implements Rule {
    * Node direction.
    */
   @Class.Private()
-  private direction: Trees.Directions;
+  private direction: Data.Directions;
 
   /**
    * Sub rule.
@@ -38,15 +38,15 @@ export class Tree extends Class.Null implements Rule {
    * @param source Source node.
    */
   @Class.Private()
-  private attachNode(target: Trees.Node, source: Trees.Node): void {
+  private attachNode(target: Data.Node, source: Data.Node): void {
     switch (this.direction) {
-      case Trees.Directions.LEFT:
+      case Data.Directions.LEFT:
         target.attachLeft(source);
         break;
-      case Trees.Directions.NEXT:
+      case Data.Directions.NEXT:
         target.attachNext(source);
         break;
-      case Trees.Directions.RIGHT:
+      case Data.Directions.RIGHT:
         target.attachRight(source);
         break;
     }
@@ -58,7 +58,7 @@ export class Tree extends Class.Null implements Rule {
    * @param direction Tree direction.
    * @param rule Tree rule.
    */
-  constructor(type: string, direction: Trees.Directions, rule: Rule) {
+  constructor(type: string, direction: Data.Directions, rule: Rule) {
     super();
     this.type = type;
     this.direction = direction;
@@ -66,27 +66,19 @@ export class Tree extends Class.Null implements Rule {
   }
 
   /**
-   * Consumes this rule without moving ahead the context offset.
-   * @param context Context entity.
-   * @returns Returns true when the analysis was succeed or false otherwise.
-   */
-  @Class.Public()
-  public peek(context: Context): boolean {
-    return this.rule.peek(context);
-  }
-
-  /**
    * Consumes this rule moving ahead the context offset.
    * @param context Context entity.
-   * @param node Current context node.
    * @returns Returns true when the analysis was succeed or false otherwise.
    */
   @Class.Public()
-  public consume(context: Context, node: Trees.Node): boolean {
-    const tempNode = new Trees.Node(this.type, context.offset);
-    if (this.rule.consume(context, tempNode)) {
-      return this.attachNode(node, tempNode), true;
+  public consume(context: Context): boolean {
+    const tree = new Data.Node(this.type, context.offset);
+    const temp = context.copy(tree);
+    const result = this.rule.consume(temp);
+    context.forward(temp.offset - context.offset);
+    if (result) {
+      this.attachNode(context.tree, temp.tree);
     }
-    return false;
+    return result;
   }
 }

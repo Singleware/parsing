@@ -18,17 +18,16 @@ export class All extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public all(): void {
-    const context = new Parsing.Context('a9a5aa');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'a9a5aa');
     const rule = new Parsing.Rules.All(new Parsing.Rules.Char.Expect('a'), new Parsing.Rules.Char.Digit());
     // First
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 2);
     // Second
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 4);
     // Expected error (No valid content)
-    this.isFalse(rule.consume(context, tree));
+    this.isFalse(rule.consume(context));
     this.areSame(context.offset, 5);
   }
 }

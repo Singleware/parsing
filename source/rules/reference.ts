@@ -4,8 +4,6 @@
  */
 import * as Class from '@singleware/class';
 
-import * as Trees from '../trees';
-
 import { Rule } from '../rule';
 import { Context } from '../context';
 
@@ -30,23 +28,12 @@ export class Reference extends Class.Null implements Rule {
   }
 
   /**
-   * Consumes this rule without moving ahead the context offset.
-   * @param context Context entity.
-   * @returns Returns true when the analysis was succeed or false otherwise.
-   */
-  @Class.Public()
-  public peek(context: Context): boolean {
-    return this.rule().peek(context);
-  }
-
-  /**
    * Consumes this rule moving ahead the context offset.
    * @param context Context entity.
-   * @param node Current context node.
    * @returns Returns true when the analysis was succeed or false otherwise.
    */
   @Class.Public()
-  public consume(context: Context, node: Trees.Node): boolean {
-    return this.rule().consume(context, node);
+  public consume(context: Context): boolean {
+    return this.rule().consume(context);
   }
 }

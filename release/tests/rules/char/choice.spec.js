@@ -21,20 +21,19 @@ let Choice = class Choice extends Testing.Case {
      * Test method.
      */
     charChoice() {
-        const context = new Parsing.Context('xyza');
-        const tree = new Parsing.Trees.Node('test', 0);
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'xyza');
         const rule = new Parsing.Rules.Char.Choice('z', 'y', 'x');
         // First success
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 1);
         // Second success
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 2);
         // Third success
-        this.isTrue(rule.consume(context, tree));
+        this.isTrue(rule.consume(context));
         this.areSame(context.offset, 3);
         // Expected error (No choice available)
-        this.isFalse(rule.consume(context, tree));
+        this.isFalse(rule.consume(context));
         this.areSame(context.offset, 3);
     }
 };

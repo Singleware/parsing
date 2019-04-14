@@ -11,7 +11,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Trees = require("../trees");
 /**
  * Not rule, rule class.
  */
@@ -27,22 +26,13 @@ let Not = class Not extends Class.Null {
         this.rule = rule;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return !this.condition.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        if (!this.condition.consume(context.copy(), new Trees.Node('temp', context.offset, node.data))) {
-            return this.rule.consume(context, node);
+    consume(context) {
+        if (!this.condition.consume(context.copy())) {
+            return this.rule.consume(context);
         }
         return false;
     }
@@ -53,9 +43,6 @@ __decorate([
 __decorate([
     Class.Private()
 ], Not.prototype, "rule", void 0);
-__decorate([
-    Class.Public()
-], Not.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Not.prototype, "consume", null);

@@ -16,26 +16,14 @@ const Class = require("@singleware/class");
  */
 let Null = class Null extends Class.Null {
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return false;
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
+    consume(context) {
         return false;
     }
 };
-__decorate([
-    Class.Public()
-], Null.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Null.prototype, "consume", null);

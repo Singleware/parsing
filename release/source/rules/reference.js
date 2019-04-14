@@ -24,29 +24,17 @@ let Reference = class Reference extends Class.Null {
         this.rule = rule;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule().peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        return this.rule().consume(context, node);
+    consume(context) {
+        return this.rule().consume(context);
     }
 };
 __decorate([
     Class.Private()
 ], Reference.prototype, "rule", void 0);
-__decorate([
-    Class.Public()
-], Reference.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Reference.prototype, "consume", null);

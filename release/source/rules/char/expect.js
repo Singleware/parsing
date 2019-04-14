@@ -24,22 +24,14 @@ let Expect = class Expect extends Class.Null {
         this.expected = char[0];
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return context.content[context.offset] === this.expected;
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        if (context.offset < context.length && this.peek(context)) {
-            return context.forward(1), true;
+    consume(context) {
+        if (context.content[context.offset] === this.expected) {
+            context.forward(1);
+            return true;
         }
         return false;
     }
@@ -47,9 +39,6 @@ let Expect = class Expect extends Class.Null {
 __decorate([
     Class.Private()
 ], Expect.prototype, "expected", void 0);
-__decorate([
-    Class.Public()
-], Expect.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Expect.prototype, "consume", null);

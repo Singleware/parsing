@@ -4,6 +4,8 @@
  */
 import * as Class from '@singleware/class';
 
+import * as Data from './data';
+
 import { Error } from './error';
 
 /**
@@ -11,6 +13,12 @@ import { Error } from './error';
  */
 @Class.Describe()
 export class Context extends Class.Null {
+  /**
+   * Content tree.
+   */
+  @Class.Private()
+  private contentTree: Data.Node;
+
   /**
    * Content string.
    */
@@ -40,15 +48,25 @@ export class Context extends Class.Null {
 
   /**
    * Default constructor.
+   * @param tree Content tree.
    * @param content Context content.
    * @param offset Initial content offset.
    * @param length Maximum content length.
    */
-  constructor(content: string, offset?: number, length?: number) {
+  constructor(tree: Data.Node, content: string, offset?: number, length?: number) {
     super();
+    this.contentTree = tree;
     this.contentString = content;
     this.contentOffset = offset || 0;
     this.contentLength = length || content.length;
+  }
+
+  /**
+   * Gets the content tree.
+   */
+  @Class.Public()
+  public get tree(): Data.Node {
+    return this.contentTree;
   }
 
   /**
@@ -118,13 +136,15 @@ export class Context extends Class.Null {
   }
 
   /**
-   * Creates a new copy from this context with an empty stack and no error data.
+   * Creates a new shallow copy of this context.
+   * @param tree Optional context tree.
    * @returns Returns the instance copy.
    */
   @Class.Public()
-  public copy(): Context {
-    const newer = new Context(this.contentString, this.contentOffset, this.contentLength);
-    newer.contentError = this.contentError;
-    return newer;
+  public copy(tree?: Data.Node): Context {
+    const node = tree || new Data.Node('@temp', this.contentOffset, this.contentTree.data);
+    const context = new Context(node, this.contentString, this.contentOffset, this.contentLength);
+    context.contentError = this.contentError;
+    return context;
   }
 }

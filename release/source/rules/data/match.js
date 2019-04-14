@@ -11,7 +11,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Trees = require("../../trees");
 /**
  * Match rule, rule class.
  */
@@ -27,28 +26,19 @@ let Match = class Match extends Class.Null {
         this.rule = rule;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.rule.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        const tempOffset = context.copy();
-        const tempNode = new Trees.Node('temp', context.offset, node.data);
-        if (this.rule.consume(tempOffset, tempNode)) {
-            const expected = node.data[this.property];
-            const consumed = context.content.substring(tempOffset.offset, context.offset);
+    consume(context) {
+        const temp = context.copy();
+        if (this.rule.consume(temp)) {
+            const expected = context.tree.data[this.property];
+            const consumed = context.content.substring(temp.offset, context.offset);
             if (expected === consumed) {
                 context.forward(consumed.length);
-                return node.assignNodes(tempNode), true;
+                context.tree.assignNodes(temp.tree);
+                return true;
             }
         }
         return false;
@@ -60,9 +50,6 @@ __decorate([
 __decorate([
     Class.Private()
 ], Match.prototype, "rule", void 0);
-__decorate([
-    Class.Public()
-], Match.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Match.prototype, "consume", null);

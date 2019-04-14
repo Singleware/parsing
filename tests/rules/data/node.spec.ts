@@ -18,35 +18,34 @@ export class Node extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public dataNode(): void {
-    const context = new Parsing.Context('defabcadg');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
     const rule = new Parsing.Rules.Data.Node(
-      Parsing.Trees.Directions.NEXT,
-      Parsing.Trees.Directions.LEFT,
+      Parsing.Data.Directions.NEXT,
+      Parsing.Data.Directions.LEFT,
       new Parsing.Rules.Data.Tree(
         'choice',
-        Parsing.Trees.Directions.NEXT,
+        Parsing.Data.Directions.NEXT,
         new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'))
       )
     );
     // First success
-    this.isTrue(rule.consume(context, tree));
-    this.areSame((<Parsing.Trees.Node>tree.left).type, 'choice');
-    this.areSame((<Parsing.Trees.Node>tree.left).data['name'], 'def');
+    this.isTrue(rule.consume(context));
+    this.areSame((<Parsing.Data.Node>context.tree.left).type, 'choice');
+    this.areSame((<Parsing.Data.Node>context.tree.left).data['name'], 'def');
     this.areSame(context.offset, 3);
     // Second success
-    this.isTrue(rule.consume(context, tree));
-    this.areSame((<Parsing.Trees.Node>tree.left).type, 'choice');
-    this.areSame((<Parsing.Trees.Node>tree.left).data['name'], 'def');
-    this.areSame((<Parsing.Trees.Node>(<Parsing.Trees.Node>tree.left).left).type, 'choice');
-    this.areSame((<Parsing.Trees.Node>(<Parsing.Trees.Node>tree.left).left).data['name'], 'abc');
+    this.isTrue(rule.consume(context));
+    this.areSame((<Parsing.Data.Node>context.tree.left).type, 'choice');
+    this.areSame((<Parsing.Data.Node>context.tree.left).data['name'], 'def');
+    this.areSame((<Parsing.Data.Node>(<Parsing.Data.Node>context.tree.left).left).type, 'choice');
+    this.areSame((<Parsing.Data.Node>(<Parsing.Data.Node>context.tree.left).left).data['name'], 'abc');
     this.areSame(context.offset, 6);
     // Expected error (No choice available)
-    this.isFalse(rule.consume(context, tree));
-    this.areSame((<Parsing.Trees.Node>tree.left).type, 'choice');
-    this.areSame((<Parsing.Trees.Node>tree.left).data['name'], 'def');
-    this.areSame((<Parsing.Trees.Node>(<Parsing.Trees.Node>tree.left).left).type, 'choice');
-    this.areSame((<Parsing.Trees.Node>(<Parsing.Trees.Node>tree.left).left).data['name'], 'abc');
+    this.isFalse(rule.consume(context));
+    this.areSame((<Parsing.Data.Node>context.tree.left).type, 'choice');
+    this.areSame((<Parsing.Data.Node>context.tree.left).data['name'], 'def');
+    this.areSame((<Parsing.Data.Node>(<Parsing.Data.Node>context.tree.left).left).type, 'choice');
+    this.areSame((<Parsing.Data.Node>(<Parsing.Data.Node>context.tree.left).left).data['name'], 'abc');
     this.areSame(context.offset, 6);
   }
 }

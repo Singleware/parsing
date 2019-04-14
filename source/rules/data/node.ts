@@ -4,7 +4,7 @@
  */
 import * as Class from '@singleware/class';
 
-import * as Trees from '../../trees';
+import * as Data from '../../data';
 
 import { Rule } from '../../rule';
 import { Context } from '../../context';
@@ -18,13 +18,13 @@ export class Node extends Class.Null implements Rule {
    * Source node direction.
    */
   @Class.Private()
-  private source: Trees.Directions;
+  private source: Data.Directions;
 
   /**
    * Target node direction.
    */
   @Class.Private()
-  private target: Trees.Directions;
+  private target: Data.Directions;
 
   /**
    * Sub rule.
@@ -38,13 +38,13 @@ export class Node extends Class.Null implements Rule {
    * @returns Returns the source node.
    */
   @Class.Private()
-  private getSourceNode(tree: Trees.Node): Trees.Node | undefined {
+  private getSourceNode(tree: Data.Node): Data.Node | undefined {
     switch (this.source) {
-      case Trees.Directions.LEFT:
+      case Data.Directions.LEFT:
         return tree.left;
-      case Trees.Directions.NEXT:
+      case Data.Directions.NEXT:
         return tree.next;
-      case Trees.Directions.RIGHT:
+      case Data.Directions.RIGHT:
         return tree.right;
     }
   }
@@ -55,15 +55,15 @@ export class Node extends Class.Null implements Rule {
    * @param source Source node.
    */
   @Class.Private()
-  private attachSourceNode(target: Trees.Node, source: Trees.Node): void {
+  private attachSourceNode(target: Data.Node, source: Data.Node): void {
     switch (this.target) {
-      case Trees.Directions.LEFT:
+      case Data.Directions.LEFT:
         target.attachLeft(source);
         break;
-      case Trees.Directions.NEXT:
+      case Data.Directions.NEXT:
         target.attachNext(source);
         break;
-      case Trees.Directions.RIGHT:
+      case Data.Directions.RIGHT:
         target.attachRight(source);
         break;
     }
@@ -75,7 +75,7 @@ export class Node extends Class.Null implements Rule {
    * @param target Target node direction.
    * @param rule Node rule.
    */
-  constructor(source: Trees.Directions, target: Trees.Directions, rule: Rule) {
+  constructor(source: Data.Directions, target: Data.Directions, rule: Rule) {
     super();
     this.source = source;
     this.target = target;
@@ -83,31 +83,21 @@ export class Node extends Class.Null implements Rule {
   }
 
   /**
-   * Consumes this rule without moving ahead the context offset.
-   * @param context Context entity.
-   * @returns Returns true when the analysis was succeed or false otherwise.
-   */
-  @Class.Public()
-  public peek(context: Context): boolean {
-    return this.rule.peek(context);
-  }
-
-  /**
    * Consumes this rule moving ahead the context offset.
    * @param context Context entity.
-   * @param node Current context node.
    * @returns Returns true when the analysis was succeed or false otherwise.
    */
   @Class.Public()
-  public consume(context: Context, node: Trees.Node): boolean {
-    const tempNode = new Trees.Node('temp', context.offset, node.data);
-    if (this.rule.consume(context, tempNode)) {
-      const source = this.getSourceNode(tempNode);
+  public consume(context: Context): boolean {
+    const temp = context.copy();
+    const result = this.rule.consume(temp);
+    context.forward(temp.offset - context.offset);
+    if (result) {
+      const source = this.getSourceNode(temp.tree);
       if (source) {
-        this.attachSourceNode(node, source);
+        this.attachSourceNode(context.tree, source);
       }
-      return true;
     }
-    return false;
+    return result;
   }
 }

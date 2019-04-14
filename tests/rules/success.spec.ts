@@ -18,17 +18,16 @@ export class Success extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public success(): void {
-    const context = new Parsing.Context('a');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'a');
     const ruleA = new Parsing.Rules.Error(0xa0, new Parsing.Rules.Data.End());
     const ruleB = new Parsing.Rules.Success(new Parsing.Rules.Char.Expect('a'));
     // Expected error (To set the error code)
-    this.isFalse(ruleA.consume(context, tree));
+    this.isFalse(ruleA.consume(context));
     this.areSame(context.offset, 0);
     this.areSame(context.error.code, 0xa0);
     this.areSame(context.error.offset, 0);
     // Success (clear the error code);
-    this.isTrue(ruleB.consume(context, tree));
+    this.isTrue(ruleB.consume(context));
     this.areSame(context.offset, 1);
     this.areSame(context.error.code, 0);
     this.areSame(context.error.offset, -1);

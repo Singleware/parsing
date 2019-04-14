@@ -18,20 +18,19 @@ export class Any extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public any(): void {
-    const context = new Parsing.Context('a95b');
-    const tree = new Parsing.Trees.Node('test', 0);
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'a95b');
     const rule = new Parsing.Rules.Any(new Parsing.Rules.Char.Expect('a'), new Parsing.Rules.Char.Digit());
     // First
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 1);
     // Second
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 2);
     // Third
-    this.isTrue(rule.consume(context, tree));
+    this.isTrue(rule.consume(context));
     this.areSame(context.offset, 3);
     // Expected error (No valid content)
-    this.isFalse(rule.consume(context, tree));
+    this.isFalse(rule.consume(context));
     this.areSame(context.offset, 3);
   }
 }

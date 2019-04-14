@@ -1,9 +1,14 @@
 import * as Class from '@singleware/class';
+import * as Data from './data';
 import { Error } from './error';
 /**
  * Context class.
  */
 export declare class Context extends Class.Null {
+    /**
+     * Content tree.
+     */
+    private contentTree;
     /**
      * Content string.
      */
@@ -22,11 +27,16 @@ export declare class Context extends Class.Null {
     private contentError;
     /**
      * Default constructor.
+     * @param tree Content tree.
      * @param content Context content.
      * @param offset Initial content offset.
      * @param length Maximum content length.
      */
-    constructor(content: string, offset?: number, length?: number);
+    constructor(tree: Data.Node, content: string, offset?: number, length?: number);
+    /**
+     * Gets the content tree.
+     */
+    readonly tree: Data.Node;
     /**
      * Gets the context content.
      */
@@ -61,8 +71,9 @@ export declare class Context extends Class.Null {
      */
     success(): Context;
     /**
-     * Creates a new copy from this context with an empty stack and no error data.
+     * Creates a new shallow copy of this context.
+     * @param tree Optional context tree.
      * @returns Returns the instance copy.
      */
-    copy(): Context;
+    copy(tree?: Data.Node): Context;
 }

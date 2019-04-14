@@ -11,7 +11,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Trees = require("../trees");
 /**
  * Decision rule, rule class.
  */
@@ -27,26 +26,17 @@ let Decision = class Decision extends Class.Null {
         this.failure = failure;
     }
     /**
-     * Consumes this rule without moving ahead the context offset.
-     * @param context Context entity.
-     * @returns Returns true when the analysis was succeed or false otherwise.
-     */
-    peek(context) {
-        return this.condition.peek(context);
-    }
-    /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
-     * @param node Current context node.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
-    consume(context, node) {
-        const tempContext = context.copy();
-        if (this.condition.consume(tempContext, new Trees.Node('temp', context.offset, node.data))) {
-            context.forward(tempContext.offset - context.offset);
-            return this.success.consume(context, node);
+    consume(context) {
+        const temp = context.copy();
+        if (this.condition.consume(temp)) {
+            context.forward(temp.offset - context.offset);
+            return this.success.consume(context);
         }
-        return this.failure.consume(context, node);
+        return this.failure.consume(context);
     }
 };
 __decorate([
@@ -58,9 +48,6 @@ __decorate([
 __decorate([
     Class.Private()
 ], Decision.prototype, "failure", void 0);
-__decorate([
-    Class.Public()
-], Decision.prototype, "peek", null);
 __decorate([
     Class.Public()
 ], Decision.prototype, "consume", null);
