@@ -35,12 +35,13 @@ suite.addCase(Rules.All);
 suite.addCase(Rules.Any);
 suite.addCase(Rules.Decision);
 suite.addCase(Rules.Error);
+suite.addCase(Rules.False);
 suite.addCase(Rules.Not);
-suite.addCase(Rules.Null);
 suite.addCase(Rules.Option);
 suite.addCase(Rules.Reference);
 suite.addCase(Rules.Repeat);
 suite.addCase(Rules.Success);
+suite.addCase(Rules.True);
 (async function () {
     const report = await suite.perform();
     logger.print(report);

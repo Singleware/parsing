@@ -6,12 +6,13 @@ export { All } from './all.spec';
 export { Any } from './any.spec';
 export { Decision } from './decision.spec';
 export { Error } from './error.spec';
+export { False } from './false.spec';
 export { Not } from './not.spec';
-export { Null } from './null.spec';
 export { Option } from './option.spec';
 export { Reference } from './reference.spec';
 export { Repeat } from './repeat.spec';
 export { Success } from './success.spec';
+export { True } from './true.spec';
 
 import * as Char from './char';
 export import Char = Char;

@@ -8,19 +8,19 @@ import * as Testing from '@singleware/testing';
 import * as Parsing from '../../source';
 
 /**
- * Null rule, test case.
+ * True rule, test case.
  */
 @Class.Describe()
-export class Null extends Testing.Case {
+export class True extends Testing.Case {
   /**
    * Test method.
    */
   @Testing.Method()
   @Class.Public()
-  public null(): void {
+  public not(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), 'x');
-    const rule = new Parsing.Rules.Null();
-    // Expected error (Always false)
+    const rule = new Parsing.Rules.True();
+    // Success (Always true)
     this.isFalse(rule.consume(context));
     this.areSame(context.offset, 0);
   }

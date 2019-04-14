@@ -14,15 +14,15 @@ const Class = require("@singleware/class");
 const Testing = require("@singleware/testing");
 const Parsing = require("../../source");
 /**
- * Null rule, test case.
+ * False rule, test case.
  */
-let Null = class Null extends Testing.Case {
+let False = class False extends Testing.Case {
     /**
      * Test method.
      */
     null() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'x');
-        const rule = new Parsing.Rules.Null();
+        const rule = new Parsing.Rules.False();
         // Expected error (Always false)
         this.isFalse(rule.consume(context));
         this.areSame(context.offset, 0);
@@ -31,9 +31,9 @@ let Null = class Null extends Testing.Case {
 __decorate([
     Testing.Method(),
     Class.Public()
-], Null.prototype, "null", null);
-Null = __decorate([
+], False.prototype, "null", null);
+False = __decorate([
     Class.Describe()
-], Null);
-exports.Null = Null;
-//# sourceMappingURL=null.spec.js.map
+], False);
+exports.False = False;
+//# sourceMappingURL=false.spec.js.map

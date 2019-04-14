@@ -12,23 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 /**
- * Null rule, rule class.
+ * True rule, rule class.
  */
-let Null = class Null extends Class.Null {
+let True = class True extends Class.Null {
     /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
     consume(context) {
-        return false;
+        return true;
     }
 };
 __decorate([
     Class.Public()
-], Null.prototype, "consume", null);
-Null = __decorate([
+], True.prototype, "consume", null);
+True = __decorate([
     Class.Describe()
-], Null);
-exports.Null = Null;
-//# sourceMappingURL=null.js.map
+], True);
+exports.True = True;
+//# sourceMappingURL=true.js.map

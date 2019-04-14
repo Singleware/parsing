@@ -2,9 +2,9 @@ import * as Class from '@singleware/class';
 import { Rule } from '../rule';
 import { Context } from '../context';
 /**
- * Null rule, rule class.
+ * True rule, rule class.
  */
-export declare class Null extends Class.Null implements Rule {
+export declare class True extends Class.Null implements Rule {
     /**
      * Consumes this rule moving ahead the context offset.
      * @param context Context entity.

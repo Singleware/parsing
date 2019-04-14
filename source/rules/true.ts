@@ -8,10 +8,10 @@ import { Rule } from '../rule';
 import { Context } from '../context';
 
 /**
- * Null rule, rule class.
+ * True rule, rule class.
  */
 @Class.Describe()
-export class Null extends Class.Null implements Rule {
+export class True extends Class.Null implements Rule {
   /**
    * Consumes this rule moving ahead the context offset.
    * @param context Context entity.
@@ -19,6 +19,6 @@ export class Null extends Class.Null implements Rule {
    */
   @Class.Public()
   public consume(context: Context): boolean {
-    return false;
+    return true;
   }
 }
