@@ -10,4 +10,6 @@ var directions_1 = require("./directions");
 exports.Directions = directions_1.Directions;
 var node_1 = require("./node");
 exports.Node = node_1.Node;
+var texts_1 = require("./texts");
+exports.Texts = texts_1.Texts;
 //# sourceMappingURL=index.js.map

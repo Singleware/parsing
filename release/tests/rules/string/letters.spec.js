@@ -22,7 +22,7 @@ let Letters = class Letters extends Testing.Case {
      */
     stringLowerLetter() {
         const context = new Parsing.Context(new Parsing.Data.Node('test', 0), 'abcdefghijklmnopqrstuvwxyzç');
-        const rule = new Parsing.Rules.String.Letters(false);
+        const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.LOWER);
         // Letters from 'a' to 'z'
         this.isTrue(rule.consume(context));
         this.areSame(context.offset, 26);
@@ -35,13 +35,26 @@ let Letters = class Letters extends Testing.Case {
      */
     stringUpperLetter() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
-        const rule = new Parsing.Rules.String.Letters(true);
+        const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.UPPER);
         // Letters from 'A' to 'Z'
         this.isTrue(rule.consume(context));
         this.areSame(context.offset, 26);
         // Expected error (No letter available)
         this.isFalse(rule.consume(context));
         this.areSame(context.offset, 26);
+    }
+    /**
+     * Both test method.
+     */
+    stringLetter() {
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'aABbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÇ');
+        const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.BOTH);
+        // Letters from 'Aa' to 'Zz'
+        this.isTrue(rule.consume(context));
+        this.areSame(context.offset, 52);
+        // Expected error (No letter available)
+        this.isFalse(rule.consume(context));
+        this.areSame(context.offset, 52);
     }
 };
 __decorate([
@@ -52,6 +65,10 @@ __decorate([
     Testing.Method(),
     Class.Public()
 ], Letters.prototype, "stringUpperLetter", null);
+__decorate([
+    Testing.Method(),
+    Class.Public()
+], Letters.prototype, "stringLetter", null);
 Letters = __decorate([
     Class.Describe()
 ], Letters);

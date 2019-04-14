@@ -12,11 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 const Char = require("../char");
-const repeat_1 = require("../repeat");
+const Flow = require("../flow");
 /**
  * String digits, rule class.
  */
-let Digits = class Digits extends repeat_1.Repeat {
+let Digits = class Digits extends Flow.Repeat {
     /**
      * Default constructor.
      */

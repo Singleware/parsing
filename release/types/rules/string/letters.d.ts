@@ -1,12 +1,13 @@
-import { Repeat } from '../repeat';
+import * as Data from '../../data';
+import * as Flow from '../flow';
 import { Rule } from '../../rule';
 /**
  * String letters, rule class.
  */
-export declare class Letters extends Repeat implements Rule {
+export declare class Letters extends Flow.Repeat implements Rule {
     /**
      * Default constructor.
-     * @param uppercase Determines whether all letters should be uppercase.
+     * @param style Text case style.
      */
-    constructor(uppercase: boolean);
+    constructor(style: Data.Texts);
 }

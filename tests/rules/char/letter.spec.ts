@@ -13,13 +13,13 @@ import * as Parsing from '../../../source';
 @Class.Describe()
 export class Letter extends Testing.Case {
   /**
-   * Consume all the lowercase letters.
+   * Lowercase test method.
    */
   @Testing.Method()
   @Class.Public()
   public charLowerLetter(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test', 0), 'abcdefghijklmnopqrstuvwxyzç');
-    const rule = new Parsing.Rules.Char.Letter(false);
+    const rule = new Parsing.Rules.Char.Letter(Parsing.Data.Texts.LOWER);
     // Letters from 'a' to 'z'
     for (let i = 0; i < 26; ++i) {
       this.isTrue(rule.consume(context));
@@ -31,13 +31,13 @@ export class Letter extends Testing.Case {
   }
 
   /**
-   * Consume all the uppercase letters.
+   * Uppercase test method.
    */
   @Testing.Method()
   @Class.Public()
   public charUpperLetter(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
-    const rule = new Parsing.Rules.Char.Letter(true);
+    const rule = new Parsing.Rules.Char.Letter(Parsing.Data.Texts.UPPER);
     // Letters from 'A' to 'Z'
     for (let i = 0; i < 26; ++i) {
       this.isTrue(rule.consume(context));
@@ -46,5 +46,23 @@ export class Letter extends Testing.Case {
     // Expected error (No letter available)
     this.isFalse(rule.consume(context));
     this.areSame(context.offset, 26);
+  }
+
+  /**
+   * Both test method.
+   */
+  @Testing.Method()
+  @Class.Public()
+  public charLetter(): void {
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'aABbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÇ');
+    const rule = new Parsing.Rules.Char.Letter(Parsing.Data.Texts.BOTH);
+    // Letters from 'Aa' to 'Zz'
+    for (let i = 0; i < 52; ++i) {
+      this.isTrue(rule.consume(context));
+      this.areSame(context.offset, i + 1);
+    }
+    // Expected error (No letter available)
+    this.isFalse(rule.consume(context));
+    this.areSame(context.offset, 52);
   }
 }

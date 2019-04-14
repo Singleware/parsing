@@ -1,12 +1,14 @@
-import { Range } from './range';
+import * as Data from '../../data';
+import * as Flow from '../flow';
 import { Rule } from '../../rule';
 /**
  * Character letter, rule class.
  */
-export declare class Letter extends Range implements Rule {
+export declare class Letter extends Flow.Any implements Rule {
     /**
      * Default constructor.
-     * @param uppercase Determines whether all letters should be uppercase.
+     * @param style Text case style.
+     * @throws Throws an error when the specified text case style is not valid.
      */
-    constructor(uppercase: boolean);
+    constructor(style: Data.Texts);
 }

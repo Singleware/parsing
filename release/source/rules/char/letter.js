@@ -11,17 +11,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
+const Data = require("../../data");
+const Flow = require("../flow");
 const range_1 = require("./range");
 /**
  * Character letter, rule class.
  */
-let Letter = class Letter extends range_1.Range {
+let Letter = class Letter extends Flow.Any {
     /**
      * Default constructor.
-     * @param uppercase Determines whether all letters should be uppercase.
+     * @param style Text case style.
+     * @throws Throws an error when the specified text case style is not valid.
      */
-    constructor(uppercase) {
-        super(uppercase ? 'A' : 'a', uppercase ? 'Z' : 'z');
+    constructor(style) {
+        switch (style) {
+            case Data.Texts.BOTH:
+                super(new range_1.Range('a', 'z'), new range_1.Range('A', 'Z'));
+                break;
+            case Data.Texts.LOWER:
+                super(new range_1.Range('a', 'z'));
+                break;
+            case Data.Texts.UPPER:
+                super(new range_1.Range('A', 'Z'));
+                break;
+            default:
+                throw new TypeError(`Invalid text case style.`);
+        }
     }
 };
 Letter = __decorate([

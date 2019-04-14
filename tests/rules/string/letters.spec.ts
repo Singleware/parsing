@@ -19,7 +19,7 @@ export class Letters extends Testing.Case {
   @Class.Public()
   public stringLowerLetter(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test', 0), 'abcdefghijklmnopqrstuvwxyzç');
-    const rule = new Parsing.Rules.String.Letters(false);
+    const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.LOWER);
     // Letters from 'a' to 'z'
     this.isTrue(rule.consume(context));
     this.areSame(context.offset, 26);
@@ -35,12 +35,28 @@ export class Letters extends Testing.Case {
   @Class.Public()
   public stringUpperLetter(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
-    const rule = new Parsing.Rules.String.Letters(true);
+    const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.UPPER);
     // Letters from 'A' to 'Z'
     this.isTrue(rule.consume(context));
     this.areSame(context.offset, 26);
     // Expected error (No letter available)
     this.isFalse(rule.consume(context));
     this.areSame(context.offset, 26);
+  }
+
+  /**
+   * Both test method.
+   */
+  @Testing.Method()
+  @Class.Public()
+  public stringLetter(): void {
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'aABbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÇ');
+    const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.BOTH);
+    // Letters from 'Aa' to 'Zz'
+    this.isTrue(rule.consume(context));
+    this.areSame(context.offset, 52);
+    // Expected error (No letter available)
+    this.isFalse(rule.consume(context));
+    this.areSame(context.offset, 52);
   }
 }

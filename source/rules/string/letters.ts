@@ -4,8 +4,9 @@
  */
 import * as Class from '@singleware/class';
 
+import * as Data from '../../data';
 import * as Char from '../char';
-import { Repeat } from '../repeat';
+import * as Flow from '../flow';
 
 import { Rule } from '../../rule';
 
@@ -13,12 +14,12 @@ import { Rule } from '../../rule';
  * String letters, rule class.
  */
 @Class.Describe()
-export class Letters extends Repeat implements Rule {
+export class Letters extends Flow.Repeat implements Rule {
   /**
    * Default constructor.
-   * @param uppercase Determines whether all letters should be uppercase.
+   * @param style Text case style.
    */
-  constructor(uppercase: boolean) {
-    super(new Char.Letter(uppercase));
+  constructor(style: Data.Texts) {
+    super(new Char.Letter(style));
   }
 }

@@ -5,7 +5,7 @@
 import * as Class from '@singleware/class';
 
 import * as Char from '../char';
-import { Repeat } from '../repeat';
+import * as Flow from '../flow';
 
 import { Rule } from '../../rule';
 
@@ -13,7 +13,7 @@ import { Rule } from '../../rule';
  * String digits, rule class.
  */
 @Class.Describe()
-export class Digits extends Repeat implements Rule {
+export class Digits extends Flow.Repeat implements Rule {
   /**
    * Default constructor.
    */

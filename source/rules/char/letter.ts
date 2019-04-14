@@ -4,6 +4,9 @@
  */
 import * as Class from '@singleware/class';
 
+import * as Data from '../../data';
+import * as Flow from '../flow';
+
 import { Range } from './range';
 import { Rule } from '../../rule';
 
@@ -11,12 +14,25 @@ import { Rule } from '../../rule';
  * Character letter, rule class.
  */
 @Class.Describe()
-export class Letter extends Range implements Rule {
+export class Letter extends Flow.Any implements Rule {
   /**
    * Default constructor.
-   * @param uppercase Determines whether all letters should be uppercase.
+   * @param style Text case style.
+   * @throws Throws an error when the specified text case style is not valid.
    */
-  constructor(uppercase: boolean) {
-    super(uppercase ? 'A' : 'a', uppercase ? 'Z' : 'z');
+  constructor(style: Data.Texts) {
+    switch (style) {
+      case Data.Texts.BOTH:
+        super(new Range('a', 'z'), new Range('A', 'Z'));
+        break;
+      case Data.Texts.LOWER:
+        super(new Range('a', 'z'));
+        break;
+      case Data.Texts.UPPER:
+        super(new Range('A', 'Z'));
+        break;
+      default:
+        throw new TypeError(`Invalid text case style.`);
+    }
   }
 }

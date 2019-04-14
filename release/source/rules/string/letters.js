@@ -12,17 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 const Char = require("../char");
-const repeat_1 = require("../repeat");
+const Flow = require("../flow");
 /**
  * String letters, rule class.
  */
-let Letters = class Letters extends repeat_1.Repeat {
+let Letters = class Letters extends Flow.Repeat {
     /**
      * Default constructor.
-     * @param uppercase Determines whether all letters should be uppercase.
+     * @param style Text case style.
      */
-    constructor(uppercase) {
-        super(new Char.Letter(uppercase));
+    constructor(style) {
+        super(new Char.Letter(style));
     }
 };
 Letters = __decorate([
