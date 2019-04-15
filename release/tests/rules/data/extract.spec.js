@@ -22,7 +22,7 @@ let Extract = class Extract extends Testing.Case {
      */
     dataLowerExtract() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DEFABCADG');
-        const rule = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.LOWERCASE, new Parsing.Rules.String.Choice('ABC', 'DEF'));
+        const rule = new Parsing.Rules.Data.LowerExtract('name', new Parsing.Rules.String.Choice('ABC', 'DEF'));
         // First success
         this.isTrue(rule.consume(context));
         this.areSame(context.tree.data['name'], 'def');
@@ -41,7 +41,7 @@ let Extract = class Extract extends Testing.Case {
      */
     dataUpperExtract() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
-        const rule = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.UPPERCASE, new Parsing.Rules.String.Choice('abc', 'def'));
+        const rule = new Parsing.Rules.Data.UpperExtract('name', new Parsing.Rules.String.Choice('abc', 'def'));
         // First success
         this.isTrue(rule.consume(context));
         this.areSame(context.tree.data['name'], 'DEF');
@@ -58,9 +58,9 @@ let Extract = class Extract extends Testing.Case {
     /**
      * Default test method.
      */
-    dataDefaultExtract() {
+    dataExtract() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DeFaBCadg');
-        const rule = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('aBC', 'DeF'));
+        const rule = new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.SoftChoice('abc', 'def'));
         // First success
         this.isTrue(rule.consume(context));
         this.areSame(context.tree.data['name'], 'DeF');
@@ -86,7 +86,7 @@ __decorate([
 __decorate([
     Testing.Method(),
     Class.Public()
-], Extract.prototype, "dataDefaultExtract", null);
+], Extract.prototype, "dataExtract", null);
 Extract = __decorate([
     Class.Describe()
 ], Extract);

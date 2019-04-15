@@ -4,27 +4,25 @@
  */
 import * as Class from '@singleware/class';
 
-import * as Data from '../../data';
-
 import { Rule } from '../../rule';
 import { Context } from '../../context';
 
 /**
- * Match rule, rule class.
+ * Match data, rule class.
  */
 @Class.Describe()
-export class Match extends Class.Null implements Rule {
+class MatchRule extends Class.Null implements Rule {
+  /**
+   * Determines whether the rule should be case insensitive.
+   */
+  @Class.Private()
+  private soft: boolean;
+
   /**
    * Expected data property.
    */
   @Class.Private()
   private property: string;
-
-  /**
-   * Text style.
-   */
-  @Class.Private()
-  private style: Data.Texts;
 
   /**
    * Expected rule.
@@ -33,32 +31,25 @@ export class Match extends Class.Null implements Rule {
   private rule: Rule;
 
   /**
-   * Gets the value according to the rule text style.
+   * Gets the value according to the rule matching style.
    * @param value Input value.
-   * @returns Returns the value according to the rule text style..
+   * @returns Returns the value according to the rule matching style.
    */
   @Class.Private()
   private getValue(value: string): string {
-    switch (this.style) {
-      case Data.Texts.LOWERCASE:
-        return value.toLowerCase();
-      case Data.Texts.UPPERCASE:
-        return value.toUpperCase();
-      default:
-        return value;
-    }
+    return this.soft ? value.toLowerCase() : value;
   }
 
   /**
    * Default constructor.
+   * @param soft Determines whether the rule should be case insensitive.
    * @param property Expected data property.
-   * @param style Match text style.
    * @param rule Expected rule.
    */
-  constructor(property: string, style: Data.Texts, rule: Rule) {
+  constructor(soft: boolean, property: string, rule: Rule) {
     super();
+    this.soft = soft;
     this.property = property;
-    this.style = style;
     this.rule = rule;
   }
 
@@ -71,7 +62,7 @@ export class Match extends Class.Null implements Rule {
   public consume(context: Context): boolean {
     const temp = context.copy();
     if (this.rule.consume(temp)) {
-      const expected = context.tree.data[this.property];
+      const expected = this.getValue(context.tree.data[this.property]);
       const consumed = this.getValue(context.content.substring(temp.offset, context.offset));
       if (expected === consumed) {
         context.forward(consumed.length);
@@ -80,5 +71,35 @@ export class Match extends Class.Null implements Rule {
       }
     }
     return false;
+  }
+}
+
+/**
+ * Match data, soft rule class.
+ */
+@Class.Describe()
+export class SoftMatch extends MatchRule {
+  /**
+   * Default constructor.
+   * @param property Expected data property.
+   * @param rule Expected rule.
+   */
+  constructor(property: string, rule: Rule) {
+    super(true, property, rule);
+  }
+}
+
+/**
+ * Match data, hard rule class.
+ */
+@Class.Describe()
+export class Match extends MatchRule {
+  /**
+   * Default constructor.
+   * @param property Expected data property.
+   * @param rule Expected rule.
+   */
+  constructor(property: string, rule: Rule) {
+    super(false, property, rule);
   }
 }

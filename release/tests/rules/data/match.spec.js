@@ -18,49 +18,30 @@ const Parsing = require("../../../source");
  */
 let Match = class Match extends Testing.Case {
     /**
-     * Lowercase test method.
+     * Soft test method.
      */
-    dataLowerMatch() {
+    dataSoftMatch() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DeFaBCadg');
-        const rule = new Parsing.Rules.Data.Match('name', Parsing.Data.Texts.LOWERCASE, new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.LOWERCASE, new Parsing.Rules.String.Choice('aBC', 'DeF')));
+        const rule = new Parsing.Rules.Data.SoftMatch('name', new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('aBC', 'DeF')));
         // First success
         this.isTrue(rule.consume(context));
-        this.areSame(context.tree.data['name'], 'def');
+        this.areSame(context.tree.data['name'], 'DeF');
         this.areSame(context.offset, 3);
         // Second success
         this.isTrue(rule.consume(context));
-        this.areSame(context.tree.data['name'], 'abc');
+        this.areSame(context.tree.data['name'], 'aBC');
         this.areSame(context.offset, 6);
         // Expected error (No choice available)
         this.isFalse(rule.consume(context));
-        this.areSame(context.tree.data['name'], 'abc');
-        this.areSame(context.offset, 6);
-    }
-    /**
-     * Uppercase test method.
-     */
-    dataUpperMatch() {
-        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DeFaBCadg');
-        const rule = new Parsing.Rules.Data.Match('name', Parsing.Data.Texts.UPPERCASE, new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.UPPERCASE, new Parsing.Rules.String.Choice('aBC', 'DeF')));
-        // First success
-        this.isTrue(rule.consume(context));
-        this.areSame(context.tree.data['name'], 'DEF');
-        this.areSame(context.offset, 3);
-        // Second success
-        this.isTrue(rule.consume(context));
-        this.areSame(context.tree.data['name'], 'ABC');
-        this.areSame(context.offset, 6);
-        // Expected error (No choice available)
-        this.isFalse(rule.consume(context));
-        this.areSame(context.tree.data['name'], 'ABC');
+        this.areSame(context.tree.data['name'], 'aBC');
         this.areSame(context.offset, 6);
     }
     /**
      * Default test method.
      */
-    dataDefaultMatch() {
+    dataMatch() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DeFaBCadg');
-        const rule = new Parsing.Rules.Data.Match('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('aBC', 'DeF')));
+        const rule = new Parsing.Rules.Data.Match('name', new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('aBC', 'DeF')));
         // First success
         this.isTrue(rule.consume(context));
         this.areSame(context.tree.data['name'], 'DeF');
@@ -78,15 +59,11 @@ let Match = class Match extends Testing.Case {
 __decorate([
     Testing.Method(),
     Class.Public()
-], Match.prototype, "dataLowerMatch", null);
+], Match.prototype, "dataSoftMatch", null);
 __decorate([
     Testing.Method(),
     Class.Public()
-], Match.prototype, "dataUpperMatch", null);
-__decorate([
-    Testing.Method(),
-    Class.Public()
-], Match.prototype, "dataDefaultMatch", null);
+], Match.prototype, "dataMatch", null);
 Match = __decorate([
     Class.Describe()
 ], Match);

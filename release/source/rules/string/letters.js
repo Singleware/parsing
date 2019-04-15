@@ -14,15 +14,44 @@ const Class = require("@singleware/class");
 const Char = require("../char");
 const Flow = require("../flow");
 /**
- * String letters, rule class.
+ * String letters, lowercase rule class.
+ */
+let LowerLetters = class LowerLetters extends Flow.Repeat {
+    /**
+     * Default constructor.
+     */
+    constructor() {
+        super(new Char.LowerLetter());
+    }
+};
+LowerLetters = __decorate([
+    Class.Describe()
+], LowerLetters);
+exports.LowerLetters = LowerLetters;
+/**
+ * String letters, uppercase rule class.
+ */
+let UpperLetters = class UpperLetters extends Flow.Repeat {
+    /**
+     * Default constructor.
+     */
+    constructor() {
+        super(new Char.UpperLetter());
+    }
+};
+UpperLetters = __decorate([
+    Class.Describe()
+], UpperLetters);
+exports.UpperLetters = UpperLetters;
+/**
+ * String letters, default rule class.
  */
 let Letters = class Letters extends Flow.Repeat {
     /**
      * Default constructor.
-     * @param style Text case style.
      */
-    constructor(style) {
-        super(new Char.Letter(style));
+    constructor() {
+        super(new Char.Letter());
     }
 };
 Letters = __decorate([

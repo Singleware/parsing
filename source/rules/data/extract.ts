@@ -10,21 +10,21 @@ import { Rule } from '../../rule';
 import { Context } from '../../context';
 
 /**
- * Extract rule, rule class.
+ * Extract data, rule class.
  */
 @Class.Describe()
-export class Extract extends Class.Null implements Rule {
+class ExtractRule extends Class.Null implements Rule {
+  /**
+   * Text style.
+   */
+  @Class.Private()
+  private style: Data.Styles;
+
   /**
    * Target property.
    */
   @Class.Private()
   private property: string;
-
-  /**
-   * Text style.
-   */
-  @Class.Private()
-  private style: Data.Texts;
 
   /**
    * Sub rule.
@@ -35,14 +35,14 @@ export class Extract extends Class.Null implements Rule {
   /**
    * Gets the value according to the rule text style.
    * @param value Input value.
-   * @returns Returns the value according to the rule text style..
+   * @returns Returns the value according to the rule text style.
    */
   @Class.Private()
   private getValue(value: string): string {
     switch (this.style) {
-      case Data.Texts.LOWERCASE:
+      case Data.Styles.LOWERCASE:
         return value.toLowerCase();
-      case Data.Texts.UPPERCASE:
+      case Data.Styles.UPPERCASE:
         return value.toUpperCase();
       default:
         return value;
@@ -51,14 +51,14 @@ export class Extract extends Class.Null implements Rule {
 
   /**
    * Default constructor.
-   * @param property Target property.
    * @param style Extracted text style.
+   * @param property Target property.
    * @param rule Extraction rule.
    */
-  constructor(property: string, style: Data.Texts, rule: Rule) {
+  constructor(style: Data.Styles, property: string, rule: Rule) {
     super();
-    this.property = property;
     this.style = style;
+    this.property = property;
     this.rule = rule;
   }
 
@@ -75,5 +75,50 @@ export class Extract extends Class.Null implements Rule {
       return true;
     }
     return false;
+  }
+}
+
+/**
+ * Extract data, lowercase rule class.
+ */
+@Class.Describe()
+export class LowerExtract extends ExtractRule {
+  /**
+   * Default constructor.
+   * @param property Target property.
+   * @param rule Extraction rule.
+   */
+  constructor(property: string, rule: Rule) {
+    super(Data.Styles.LOWERCASE, property, rule);
+  }
+}
+
+/**
+ * Extract data, uppercase rule class.
+ */
+@Class.Describe()
+export class UpperExtract extends ExtractRule {
+  /**
+   * Default constructor.
+   * @param property Target property.
+   * @param rule Extraction rule.
+   */
+  constructor(property: string, rule: Rule) {
+    super(Data.Styles.UPPERCASE, property, rule);
+  }
+}
+
+/**
+ * Extract data, default rule class.
+ */
+@Class.Describe()
+export class Extract extends ExtractRule {
+  /**
+   * Default constructor.
+   * @param property Target property.
+   * @param rule Extraction rule.
+   */
+  constructor(property: string, rule: Rule) {
+    super(Data.Styles.DEFAULT, property, rule);
   }
 }

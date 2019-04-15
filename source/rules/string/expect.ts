@@ -11,7 +11,13 @@ import { Context } from '../../context';
  * Expected string, rule class.
  */
 @Class.Describe()
-export class Expect extends Class.Null implements Rule {
+class ExpectRule extends Class.Null implements Rule {
+  /**
+   * Determines whether the rule should be case insensitive.
+   */
+  @Class.Private()
+  private soft: boolean;
+
   /**
    * Expected string.
    */
@@ -19,12 +25,24 @@ export class Expect extends Class.Null implements Rule {
   private expected: string;
 
   /**
+   * Gets the value according to the rule matching style.
+   * @param value Input value.
+   * @returns Returns the value according to the rule matching style.
+   */
+  @Class.Private()
+  private getValue(value: string): string {
+    return this.soft ? value.toLowerCase() : value;
+  }
+
+  /**
    * Default constructor.
+   * @param soft Determines whether the rule should be case insensitive.
    * @param string Expected string.
    */
-  constructor(string: string) {
+  constructor(soft: boolean, string: string) {
     super();
-    this.expected = string;
+    this.soft = soft;
+    this.expected = this.getValue(string);
   }
 
   /**
@@ -34,10 +52,39 @@ export class Expect extends Class.Null implements Rule {
    */
   @Class.Public()
   public consume(context: Context): boolean {
-    if (context.content.substr(context.offset, this.expected.length) === this.expected) {
+    const consumed = this.getValue(context.content.substr(context.offset, this.expected.length));
+    if (consumed === this.expected) {
       context.forward(this.expected.length);
       return true;
     }
     return false;
+  }
+}
+
+/**
+ * Expected string, soft rule class.
+ */
+@Class.Describe()
+export class SoftExpect extends ExpectRule {
+  /**
+   * Default constructor.
+   * @param string Expected string.
+   */
+  constructor(string: string) {
+    super(true, string);
+  }
+}
+
+/**
+ * Expected string, hard rule class.
+ */
+@Class.Describe()
+export class Expect extends ExpectRule {
+  /**
+   * Default constructor.
+   * @param string Expected string.
+   */
+  constructor(string: string) {
+    super(false, string);
   }
 }

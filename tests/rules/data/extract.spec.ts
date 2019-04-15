@@ -19,7 +19,7 @@ export class Extract extends Testing.Case {
   @Class.Public()
   public dataLowerExtract(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DEFABCADG');
-    const rule = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.LOWERCASE, new Parsing.Rules.String.Choice('ABC', 'DEF'));
+    const rule = new Parsing.Rules.Data.LowerExtract('name', new Parsing.Rules.String.Choice('ABC', 'DEF'));
     // First success
     this.isTrue(rule.consume(context));
     this.areSame(context.tree.data['name'], 'def');
@@ -41,7 +41,7 @@ export class Extract extends Testing.Case {
   @Class.Public()
   public dataUpperExtract(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
-    const rule = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.UPPERCASE, new Parsing.Rules.String.Choice('abc', 'def'));
+    const rule = new Parsing.Rules.Data.UpperExtract('name', new Parsing.Rules.String.Choice('abc', 'def'));
     // First success
     this.isTrue(rule.consume(context));
     this.areSame(context.tree.data['name'], 'DEF');
@@ -61,9 +61,9 @@ export class Extract extends Testing.Case {
    */
   @Testing.Method()
   @Class.Public()
-  public dataDefaultExtract(): void {
+  public dataExtract(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DeFaBCadg');
-    const rule = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('aBC', 'DeF'));
+    const rule = new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.SoftChoice('abc', 'def'));
     // First success
     this.isTrue(rule.consume(context));
     this.areSame(context.tree.data['name'], 'DeF');

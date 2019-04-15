@@ -11,7 +11,13 @@ import { Context } from '../../context';
  * Expected character, rule class.
  */
 @Class.Describe()
-export class Expect extends Class.Null implements Rule {
+class ExpectRule extends Class.Null implements Rule {
+  /**
+   * Determines whether the rule should be case insensitive.
+   */
+  @Class.Private()
+  private soft: boolean;
+
   /**
    * Expected character.
    */
@@ -19,12 +25,24 @@ export class Expect extends Class.Null implements Rule {
   private expected: string;
 
   /**
+   * Gets the value according to the rule matching style.
+   * @param value Input value.
+   * @returns Returns the value according to the rule matching style.
+   */
+  @Class.Private()
+  private getValue(value: string): string {
+    return this.soft ? value.toLowerCase() : value;
+  }
+
+  /**
    * Default constructor.
+   * @param soft Determines whether the rule should be case insensitive.
    * @param char Expected character.
    */
-  constructor(char: string) {
+  constructor(soft: boolean, char: string) {
     super();
-    this.expected = char[0];
+    this.soft = soft;
+    this.expected = this.getValue(char[0]);
   }
 
   /**
@@ -34,10 +52,38 @@ export class Expect extends Class.Null implements Rule {
    */
   @Class.Public()
   public consume(context: Context): boolean {
-    if (context.content[context.offset] === this.expected) {
+    if (this.getValue(context.content[context.offset]) === this.expected) {
       context.forward(1);
       return true;
     }
     return false;
+  }
+}
+
+/**
+ * Expected character, soft rule class.
+ */
+@Class.Describe()
+export class SoftExpect extends ExpectRule {
+  /**
+   * Default constructor.
+   * @param char Expected character.
+   */
+  constructor(char: string) {
+    super(true, char);
+  }
+}
+
+/**
+ * Expected character, hard rule class.
+ */
+@Class.Describe()
+export class Expect extends ExpectRule {
+  /**
+   * Default constructor.
+   * @param char Expected character.
+   */
+  constructor(char: string) {
+    super(false, char);
   }
 }

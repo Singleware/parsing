@@ -14,14 +14,24 @@ const Class = require("@singleware/class");
 /**
  * Expected character, rule class.
  */
-let Expect = class Expect extends Class.Null {
+let ExpectRule = class ExpectRule extends Class.Null {
     /**
      * Default constructor.
+     * @param soft Determines whether the rule should be case insensitive.
      * @param char Expected character.
      */
-    constructor(char) {
+    constructor(soft, char) {
         super();
-        this.expected = char[0];
+        this.soft = soft;
+        this.expected = this.getValue(char[0]);
+    }
+    /**
+     * Gets the value according to the rule matching style.
+     * @param value Input value.
+     * @returns Returns the value according to the rule matching style.
+     */
+    getValue(value) {
+        return this.soft ? value.toLowerCase() : value;
     }
     /**
      * Consumes this rule moving ahead the context offset.
@@ -29,7 +39,7 @@ let Expect = class Expect extends Class.Null {
      * @returns Returns true when the analysis was succeed or false otherwise.
      */
     consume(context) {
-        if (context.content[context.offset] === this.expected) {
+        if (this.getValue(context.content[context.offset]) === this.expected) {
             context.forward(1);
             return true;
         }
@@ -38,10 +48,47 @@ let Expect = class Expect extends Class.Null {
 };
 __decorate([
     Class.Private()
-], Expect.prototype, "expected", void 0);
+], ExpectRule.prototype, "soft", void 0);
+__decorate([
+    Class.Private()
+], ExpectRule.prototype, "expected", void 0);
+__decorate([
+    Class.Private()
+], ExpectRule.prototype, "getValue", null);
 __decorate([
     Class.Public()
-], Expect.prototype, "consume", null);
+], ExpectRule.prototype, "consume", null);
+ExpectRule = __decorate([
+    Class.Describe()
+], ExpectRule);
+/**
+ * Expected character, soft rule class.
+ */
+let SoftExpect = class SoftExpect extends ExpectRule {
+    /**
+     * Default constructor.
+     * @param char Expected character.
+     */
+    constructor(char) {
+        super(true, char);
+    }
+};
+SoftExpect = __decorate([
+    Class.Describe()
+], SoftExpect);
+exports.SoftExpect = SoftExpect;
+/**
+ * Expected character, hard rule class.
+ */
+let Expect = class Expect extends ExpectRule {
+    /**
+     * Default constructor.
+     * @param char Expected character.
+     */
+    constructor(char) {
+        super(false, char);
+    }
+};
 Expect = __decorate([
     Class.Describe()
 ], Expect);

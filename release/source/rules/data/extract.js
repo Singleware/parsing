@@ -13,31 +13,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Class = require("@singleware/class");
 const Data = require("../../data");
 /**
- * Extract rule, rule class.
+ * Extract data, rule class.
  */
-let Extract = class Extract extends Class.Null {
+let ExtractRule = class ExtractRule extends Class.Null {
     /**
      * Default constructor.
-     * @param property Target property.
      * @param style Extracted text style.
+     * @param property Target property.
      * @param rule Extraction rule.
      */
-    constructor(property, style, rule) {
+    constructor(style, property, rule) {
         super();
-        this.property = property;
         this.style = style;
+        this.property = property;
         this.rule = rule;
     }
     /**
      * Gets the value according to the rule text style.
      * @param value Input value.
-     * @returns Returns the value according to the rule text style..
+     * @returns Returns the value according to the rule text style.
      */
     getValue(value) {
         switch (this.style) {
-            case Data.Texts.LOWERCASE:
+            case Data.Styles.LOWERCASE:
                 return value.toLowerCase();
-            case Data.Texts.UPPERCASE:
+            case Data.Styles.UPPERCASE:
                 return value.toUpperCase();
             default:
                 return value;
@@ -59,19 +59,69 @@ let Extract = class Extract extends Class.Null {
 };
 __decorate([
     Class.Private()
-], Extract.prototype, "property", void 0);
+], ExtractRule.prototype, "style", void 0);
 __decorate([
     Class.Private()
-], Extract.prototype, "style", void 0);
+], ExtractRule.prototype, "property", void 0);
 __decorate([
     Class.Private()
-], Extract.prototype, "rule", void 0);
+], ExtractRule.prototype, "rule", void 0);
 __decorate([
     Class.Private()
-], Extract.prototype, "getValue", null);
+], ExtractRule.prototype, "getValue", null);
 __decorate([
     Class.Public()
-], Extract.prototype, "consume", null);
+], ExtractRule.prototype, "consume", null);
+ExtractRule = __decorate([
+    Class.Describe()
+], ExtractRule);
+/**
+ * Extract data, lowercase rule class.
+ */
+let LowerExtract = class LowerExtract extends ExtractRule {
+    /**
+     * Default constructor.
+     * @param property Target property.
+     * @param rule Extraction rule.
+     */
+    constructor(property, rule) {
+        super(Data.Styles.LOWERCASE, property, rule);
+    }
+};
+LowerExtract = __decorate([
+    Class.Describe()
+], LowerExtract);
+exports.LowerExtract = LowerExtract;
+/**
+ * Extract data, uppercase rule class.
+ */
+let UpperExtract = class UpperExtract extends ExtractRule {
+    /**
+     * Default constructor.
+     * @param property Target property.
+     * @param rule Extraction rule.
+     */
+    constructor(property, rule) {
+        super(Data.Styles.UPPERCASE, property, rule);
+    }
+};
+UpperExtract = __decorate([
+    Class.Describe()
+], UpperExtract);
+exports.UpperExtract = UpperExtract;
+/**
+ * Extract data, default rule class.
+ */
+let Extract = class Extract extends ExtractRule {
+    /**
+     * Default constructor.
+     * @param property Target property.
+     * @param rule Extraction rule.
+     */
+    constructor(property, rule) {
+        super(Data.Styles.DEFAULT, property, rule);
+    }
+};
 Extract = __decorate([
     Class.Describe()
 ], Extract);

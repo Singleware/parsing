@@ -22,7 +22,7 @@ let Letter = class Letter extends Testing.Case {
      */
     charLowerLetter() {
         const context = new Parsing.Context(new Parsing.Data.Node('test', 0), 'abcdefghijklmnopqrstuvwxyzç');
-        const rule = new Parsing.Rules.Char.Letter(Parsing.Data.Texts.LOWERCASE);
+        const rule = new Parsing.Rules.Char.LowerLetter();
         // Letters from 'a' to 'z'
         for (let i = 0; i < 26; ++i) {
             this.isTrue(rule.consume(context));
@@ -37,7 +37,7 @@ let Letter = class Letter extends Testing.Case {
      */
     charUpperLetter() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
-        const rule = new Parsing.Rules.Char.Letter(Parsing.Data.Texts.UPPERCASE);
+        const rule = new Parsing.Rules.Char.UpperLetter();
         // Letters from 'A' to 'Z'
         for (let i = 0; i < 26; ++i) {
             this.isTrue(rule.consume(context));
@@ -50,9 +50,9 @@ let Letter = class Letter extends Testing.Case {
     /**
      * Default test method.
      */
-    charDefaultLetter() {
+    charLetter() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'aABbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÇ');
-        const rule = new Parsing.Rules.Char.Letter(Parsing.Data.Texts.DEFAULT);
+        const rule = new Parsing.Rules.Char.Letter();
         // Letters from 'Aa' to 'Zz'
         for (let i = 0; i < 52; ++i) {
             this.isTrue(rule.consume(context));
@@ -74,7 +74,7 @@ __decorate([
 __decorate([
     Testing.Method(),
     Class.Public()
-], Letter.prototype, "charDefaultLetter", null);
+], Letter.prototype, "charLetter", null);
 Letter = __decorate([
     Class.Describe()
 ], Letter);

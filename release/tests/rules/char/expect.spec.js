@@ -18,10 +18,26 @@ const Parsing = require("../../../source");
  */
 let Expect = class Expect extends Testing.Case {
     /**
+     * Soft test method.
+     */
+    charSoftExpect() {
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'xXy');
+        const rule = new Parsing.Rules.Char.SoftExpect('x');
+        // First
+        this.isTrue(rule.consume(context));
+        this.areSame(context.offset, 1);
+        // Second
+        this.isTrue(rule.consume(context));
+        this.areSame(context.offset, 2);
+        // Expected error (No char expected)
+        this.isFalse(rule.consume(context));
+        this.areSame(context.offset, 2);
+    }
+    /**
      * Test method.
      */
     charExpect() {
-        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'xy');
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'xX');
         const rule = new Parsing.Rules.Char.Expect('x');
         // Success
         this.isTrue(rule.consume(context));
@@ -31,6 +47,10 @@ let Expect = class Expect extends Testing.Case {
         this.areSame(context.offset, 1);
     }
 };
+__decorate([
+    Testing.Method(),
+    Class.Public()
+], Expect.prototype, "charSoftExpect", null);
 __decorate([
     Testing.Method(),
     Class.Public()

@@ -14,14 +14,24 @@ const Class = require("@singleware/class");
 /**
  * String choice, rule class.
  */
-let Choice = class Choice extends Class.Null {
+let ChoiceRule = class ChoiceRule extends Class.Null {
     /**
      * Default constructor.
+     * @param soft Determines whether the rule should be case insensitive.
      * @param strings List of expected strings.
      */
-    constructor(...strings) {
+    constructor(soft, ...strings) {
         super();
-        this.expected = strings;
+        this.soft = soft;
+        this.expected = strings.map((string) => this.getValue(string));
+    }
+    /**
+     * Gets the value according to the rule matching style.
+     * @param value Input value.
+     * @returns Returns the value according to the rule matching style.
+     */
+    getValue(value) {
+        return this.soft ? value.toLowerCase() : value;
     }
     /**
      * Consumes this rule moving ahead the context offset.
@@ -30,7 +40,7 @@ let Choice = class Choice extends Class.Null {
      */
     consume(context) {
         for (const expected of this.expected) {
-            const consumed = context.content.substr(context.offset, expected.length);
+            const consumed = this.getValue(context.content.substr(context.offset, expected.length));
             if (expected === consumed) {
                 context.forward(expected.length);
                 return true;
@@ -41,10 +51,47 @@ let Choice = class Choice extends Class.Null {
 };
 __decorate([
     Class.Private()
-], Choice.prototype, "expected", void 0);
+], ChoiceRule.prototype, "soft", void 0);
+__decorate([
+    Class.Private()
+], ChoiceRule.prototype, "expected", void 0);
+__decorate([
+    Class.Private()
+], ChoiceRule.prototype, "getValue", null);
 __decorate([
     Class.Public()
-], Choice.prototype, "consume", null);
+], ChoiceRule.prototype, "consume", null);
+ChoiceRule = __decorate([
+    Class.Describe()
+], ChoiceRule);
+/**
+ * String choice, soft rule class.
+ */
+let SoftChoice = class SoftChoice extends ChoiceRule {
+    /**
+     * Default constructor.
+     * @param strings List of expected strings.
+     */
+    constructor(...strings) {
+        super(true, ...strings);
+    }
+};
+SoftChoice = __decorate([
+    Class.Describe()
+], SoftChoice);
+exports.SoftChoice = SoftChoice;
+/**
+ * String choice, hard rule class.
+ */
+let Choice = class Choice extends ChoiceRule {
+    /**
+     * Default constructor.
+     * @param strings List of expected strings.
+     */
+    constructor(...strings) {
+        super(false, ...strings);
+    }
+};
 Choice = __decorate([
     Class.Describe()
 ], Choice);

@@ -11,37 +11,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Data = require("../../data");
 /**
- * Match rule, rule class.
+ * Match data, rule class.
  */
-let Match = class Match extends Class.Null {
+let MatchRule = class MatchRule extends Class.Null {
     /**
      * Default constructor.
+     * @param soft Determines whether the rule should be case insensitive.
      * @param property Expected data property.
-     * @param style Match text style.
      * @param rule Expected rule.
      */
-    constructor(property, style, rule) {
+    constructor(soft, property, rule) {
         super();
+        this.soft = soft;
         this.property = property;
-        this.style = style;
         this.rule = rule;
     }
     /**
-     * Gets the value according to the rule text style.
+     * Gets the value according to the rule matching style.
      * @param value Input value.
-     * @returns Returns the value according to the rule text style..
+     * @returns Returns the value according to the rule matching style.
      */
     getValue(value) {
-        switch (this.style) {
-            case Data.Texts.LOWERCASE:
-                return value.toLowerCase();
-            case Data.Texts.UPPERCASE:
-                return value.toUpperCase();
-            default:
-                return value;
-        }
+        return this.soft ? value.toLowerCase() : value;
     }
     /**
      * Consumes this rule moving ahead the context offset.
@@ -51,7 +43,7 @@ let Match = class Match extends Class.Null {
     consume(context) {
         const temp = context.copy();
         if (this.rule.consume(temp)) {
-            const expected = context.tree.data[this.property];
+            const expected = this.getValue(context.tree.data[this.property]);
             const consumed = this.getValue(context.content.substring(temp.offset, context.offset));
             if (expected === consumed) {
                 context.forward(consumed.length);
@@ -64,19 +56,52 @@ let Match = class Match extends Class.Null {
 };
 __decorate([
     Class.Private()
-], Match.prototype, "property", void 0);
+], MatchRule.prototype, "soft", void 0);
 __decorate([
     Class.Private()
-], Match.prototype, "style", void 0);
+], MatchRule.prototype, "property", void 0);
 __decorate([
     Class.Private()
-], Match.prototype, "rule", void 0);
+], MatchRule.prototype, "rule", void 0);
 __decorate([
     Class.Private()
-], Match.prototype, "getValue", null);
+], MatchRule.prototype, "getValue", null);
 __decorate([
     Class.Public()
-], Match.prototype, "consume", null);
+], MatchRule.prototype, "consume", null);
+MatchRule = __decorate([
+    Class.Describe()
+], MatchRule);
+/**
+ * Match data, soft rule class.
+ */
+let SoftMatch = class SoftMatch extends MatchRule {
+    /**
+     * Default constructor.
+     * @param property Expected data property.
+     * @param rule Expected rule.
+     */
+    constructor(property, rule) {
+        super(true, property, rule);
+    }
+};
+SoftMatch = __decorate([
+    Class.Describe()
+], SoftMatch);
+exports.SoftMatch = SoftMatch;
+/**
+ * Match data, hard rule class.
+ */
+let Match = class Match extends MatchRule {
+    /**
+     * Default constructor.
+     * @param property Expected data property.
+     * @param rule Expected rule.
+     */
+    constructor(property, rule) {
+        super(false, property, rule);
+    }
+};
 Match = __decorate([
     Class.Describe()
 ], Match);

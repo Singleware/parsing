@@ -22,7 +22,7 @@ let Node = class Node extends Testing.Case {
      */
     dataNode() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
-        const rule = new Parsing.Rules.Data.Node(Parsing.Data.Directions.NEXT, Parsing.Data.Directions.LEFT, new Parsing.Rules.Data.Tree('choice', Parsing.Data.Directions.NEXT, new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('abc', 'def'))));
+        const rule = new Parsing.Rules.Data.Node(Parsing.Data.Directions.NEXT, Parsing.Data.Directions.LEFT, new Parsing.Rules.Data.Tree('choice', Parsing.Data.Directions.NEXT, new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'))));
         // First success
         this.isTrue(rule.consume(context));
         this.areSame(context.tree.left.type, 'choice');

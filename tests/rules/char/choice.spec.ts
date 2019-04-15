@@ -13,12 +13,34 @@ import * as Parsing from '../../../source';
 @Class.Describe()
 export class Choice extends Testing.Case {
   /**
+   * Soft test method.
+   */
+  @Testing.Method()
+  @Class.Public()
+  public charSoftChoice(): void {
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'XyZa');
+    const rule = new Parsing.Rules.Char.SoftChoice('z', 'y', 'x');
+    // First success
+    this.isTrue(rule.consume(context));
+    this.areSame(context.offset, 1);
+    // Second success
+    this.isTrue(rule.consume(context));
+    this.areSame(context.offset, 2);
+    // Third success
+    this.isTrue(rule.consume(context));
+    this.areSame(context.offset, 3);
+    // Expected error (No choice available)
+    this.isFalse(rule.consume(context));
+    this.areSame(context.offset, 3);
+  }
+
+  /**
    * Test method.
    */
   @Testing.Method()
   @Class.Public()
   public charChoice(): void {
-    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'xyza');
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'xyzX');
     const rule = new Parsing.Rules.Char.Choice('z', 'y', 'x');
     // First success
     this.isTrue(rule.consume(context));

@@ -1,4 +1,4 @@
-export { Choice } from './choice';
 export { Digits } from './digits';
-export { Expect } from './expect';
-export { Letters } from './letters';
+export { SoftExpect, Expect } from './expect';
+export { SoftChoice, Choice } from './choice';
+export { LowerLetters, UpperLetters, Letters } from './letters';

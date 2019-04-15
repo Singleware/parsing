@@ -25,7 +25,7 @@ export class Node extends Testing.Case {
       new Parsing.Rules.Data.Tree(
         'choice',
         Parsing.Data.Directions.NEXT,
-        new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('abc', 'def'))
+        new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'))
       )
     );
     // First success

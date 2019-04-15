@@ -19,7 +19,7 @@ export class Condition extends Testing.Case {
   @Class.Public()
   public dataCondition(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
-    const ruleA = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('abc', 'def'));
+    const ruleA = new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'));
     const ruleB = new Parsing.Rules.Data.Condition(
       'name',
       Parsing.Data.Conditions.EQUALS,

@@ -18,10 +18,29 @@ const Parsing = require("../../../source");
  */
 let Choice = class Choice extends Testing.Case {
     /**
+     * Soft test method.
+     */
+    stringSoftChoice() {
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'aBCgHiDeFaDg');
+        const rule = new Parsing.Rules.String.SoftChoice('abc', 'def', 'ghi');
+        // First success
+        this.isTrue(rule.consume(context));
+        this.areSame(context.offset, 3);
+        // Second success
+        this.isTrue(rule.consume(context));
+        this.areSame(context.offset, 6);
+        // Third success
+        this.isTrue(rule.consume(context));
+        this.areSame(context.offset, 9);
+        // Expected error (No choice available)
+        this.isFalse(rule.consume(context));
+        this.areSame(context.offset, 9);
+    }
+    /**
      * Test method.
      */
     stringChoice() {
-        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'abcghidefadg');
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'abcghidefABC');
         const rule = new Parsing.Rules.String.Choice('abc', 'def', 'ghi');
         // First success
         this.isTrue(rule.consume(context));
@@ -37,6 +56,10 @@ let Choice = class Choice extends Testing.Case {
         this.areSame(context.offset, 9);
     }
 };
+__decorate([
+    Testing.Method(),
+    Class.Public()
+], Choice.prototype, "stringSoftChoice", null);
 __decorate([
     Testing.Method(),
     Class.Public()

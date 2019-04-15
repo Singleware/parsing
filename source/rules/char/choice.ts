@@ -8,10 +8,16 @@ import { Rule } from '../../rule';
 import { Context } from '../../context';
 
 /**
- * Character choice, rule class.
+ * Character choice, generic rule class.
  */
 @Class.Describe()
-export class Choice extends Class.Null implements Rule {
+class ChoiceRule extends Class.Null implements Rule {
+  /**
+   * Determines whether the rule should be case insensitive.
+   */
+  @Class.Private()
+  private soft: boolean;
+
   /**
    * Expected characters.
    */
@@ -19,12 +25,24 @@ export class Choice extends Class.Null implements Rule {
   private expected: string[];
 
   /**
+   * Gets the value according to the rule matching style.
+   * @param value Input value.
+   * @returns Returns the value according to the rule matching style.
+   */
+  @Class.Private()
+  private getValue(value: string): string {
+    return this.soft ? value.toLowerCase() : value;
+  }
+
+  /**
    * Default constructor.
+   * @param soft Determines whether the rule should be case insensitive.
    * @param chars List of expected characters.
    */
-  constructor(...chars: string[]) {
+  constructor(soft: boolean, ...chars: string[]) {
     super();
-    this.expected = chars.map((char: string) => char[0]);
+    this.soft = soft;
+    this.expected = chars.map((char: string) => this.getValue(char[0]));
   }
 
   /**
@@ -34,10 +52,38 @@ export class Choice extends Class.Null implements Rule {
    */
   @Class.Public()
   public consume(context: Context): boolean {
-    if (this.expected.includes(context.content[context.offset])) {
+    if (this.expected.includes(this.getValue(context.content[context.offset]))) {
       context.forward(1);
       return true;
     }
     return false;
+  }
+}
+
+/**
+ * Character choice, soft rule class.
+ */
+@Class.Describe()
+export class SoftChoice extends ChoiceRule {
+  /**
+   * Default constructor.
+   * @param chars List of expected characters.
+   */
+  constructor(...chars: string[]) {
+    super(true, ...chars);
+  }
+}
+
+/**
+ * Character choice, hard rule class.
+ */
+@Class.Describe()
+export class Choice extends ChoiceRule {
+  /**
+   * Default constructor.
+   * @param chars List of expected characters.
+   */
+  constructor(...chars: string[]) {
+    super(false, ...chars);
   }
 }

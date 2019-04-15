@@ -13,6 +13,22 @@ import * as Parsing from '../../../source';
 @Class.Describe()
 export class Expect extends Testing.Case {
   /**
+   * Soft test method.
+   */
+  @Testing.Method()
+  @Class.Public()
+  public stringSoftExpect(): void {
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'aBCx');
+    const rule = new Parsing.Rules.String.SoftExpect('abc');
+    // Success
+    this.isTrue(rule.consume(context));
+    this.areSame(context.offset, 3);
+    // Expected error (No char expected)
+    this.isFalse(rule.consume(context));
+    this.areSame(context.offset, 3);
+  }
+
+  /**
    * Test method.
    */
   @Testing.Method()

@@ -1,7 +1,7 @@
 /**
- * Data texts enumeration.
+ * Data styles enumeration.
  */
-export declare enum Texts {
+export declare enum Styles {
     DEFAULT = 1,
     LOWERCASE = 2,
     UPPERCASE = 3

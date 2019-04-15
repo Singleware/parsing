@@ -11,29 +11,47 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const Data = require("../../data");
 const Flow = require("../flow");
 const range_1 = require("./range");
 /**
- * Character letter, rule class.
+ * Character letter, lowercase rule class.
+ */
+let LowerLetter = class LowerLetter extends range_1.Range {
+    /**
+     * Default constructor.
+     */
+    constructor() {
+        super('a', 'z');
+    }
+};
+LowerLetter = __decorate([
+    Class.Describe()
+], LowerLetter);
+exports.LowerLetter = LowerLetter;
+/**
+ * Character letter, uppercase rule class.
+ */
+let UpperLetter = class UpperLetter extends range_1.Range {
+    /**
+     * Default constructor.
+     */
+    constructor() {
+        super('A', 'Z');
+    }
+};
+UpperLetter = __decorate([
+    Class.Describe()
+], UpperLetter);
+exports.UpperLetter = UpperLetter;
+/**
+ * Character letter, default rule class.
  */
 let Letter = class Letter extends Flow.Any {
     /**
      * Default constructor.
-     * @param style Text case style.
      */
-    constructor(style) {
-        switch (style) {
-            case Data.Texts.LOWERCASE:
-                super(new range_1.Range('a', 'z'));
-                break;
-            case Data.Texts.UPPERCASE:
-                super(new range_1.Range('A', 'Z'));
-                break;
-            default:
-                super(new range_1.Range('a', 'z'), new range_1.Range('A', 'Z'));
-                break;
-        }
+    constructor() {
+        super(new range_1.Range('a', 'z'), new range_1.Range('A', 'Z'));
     }
 };
 Letter = __decorate([

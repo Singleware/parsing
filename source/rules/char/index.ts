@@ -3,8 +3,8 @@
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 export { Any } from './any';
-export { Choice } from './choice';
 export { Digit } from './digit';
-export { Expect } from './expect';
-export { Letter } from './letter';
 export { Range } from './range';
+export { SoftChoice, Choice } from './choice';
+export { SoftExpect, Expect } from './expect';
+export { LowerLetter, UpperLetter, Letter } from './letter';

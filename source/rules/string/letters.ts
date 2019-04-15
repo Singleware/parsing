@@ -4,22 +4,46 @@
  */
 import * as Class from '@singleware/class';
 
-import * as Data from '../../data';
 import * as Char from '../char';
 import * as Flow from '../flow';
 
 import { Rule } from '../../rule';
 
 /**
- * String letters, rule class.
+ * String letters, lowercase rule class.
+ */
+@Class.Describe()
+export class LowerLetters extends Flow.Repeat implements Rule {
+  /**
+   * Default constructor.
+   */
+  constructor() {
+    super(new Char.LowerLetter());
+  }
+}
+
+/**
+ * String letters, uppercase rule class.
+ */
+@Class.Describe()
+export class UpperLetters extends Flow.Repeat implements Rule {
+  /**
+   * Default constructor.
+   */
+  constructor() {
+    super(new Char.UpperLetter());
+  }
+}
+
+/**
+ * String letters, default rule class.
  */
 @Class.Describe()
 export class Letters extends Flow.Repeat implements Rule {
   /**
    * Default constructor.
-   * @param style Text case style.
    */
-  constructor(style: Data.Texts) {
-    super(new Char.Letter(style));
+  constructor() {
+    super(new Char.Letter());
   }
 }

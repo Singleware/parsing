@@ -4,9 +4,9 @@
  */
 
 /**
- * Data texts enumeration.
+ * Data styles enumeration.
  */
-export enum Texts {
+export enum Styles {
   DEFAULT = 0x01,
   LOWERCASE = 0x02,
   UPPERCASE = 0x03

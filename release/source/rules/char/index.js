@@ -6,14 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var any_1 = require("./any");
 exports.Any = any_1.Any;
-var choice_1 = require("./choice");
-exports.Choice = choice_1.Choice;
 var digit_1 = require("./digit");
 exports.Digit = digit_1.Digit;
-var expect_1 = require("./expect");
-exports.Expect = expect_1.Expect;
-var letter_1 = require("./letter");
-exports.Letter = letter_1.Letter;
 var range_1 = require("./range");
 exports.Range = range_1.Range;
+var choice_1 = require("./choice");
+exports.SoftChoice = choice_1.SoftChoice;
+exports.Choice = choice_1.Choice;
+var expect_1 = require("./expect");
+exports.SoftExpect = expect_1.SoftExpect;
+exports.Expect = expect_1.Expect;
+var letter_1 = require("./letter");
+exports.LowerLetter = letter_1.LowerLetter;
+exports.UpperLetter = letter_1.UpperLetter;
+exports.Letter = letter_1.Letter;
 //# sourceMappingURL=index.js.map
