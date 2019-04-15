@@ -49,7 +49,7 @@ let Condition = class Condition extends Class.Null {
                 return value >= this.value;
             case Data.Conditions.GREATER_THAN:
                 return value > this.value;
-            case Data.Conditions.IN:
+            case Data.Conditions.INCLUDES:
                 if (this.value instanceof Array) {
                     return this.value.includes(value);
                 }

@@ -18,21 +18,18 @@ export class Letter extends Flow.Any implements Rule {
   /**
    * Default constructor.
    * @param style Text case style.
-   * @throws Throws an error when the specified text case style is not valid.
    */
   constructor(style: Data.Texts) {
     switch (style) {
-      case Data.Texts.BOTH:
-        super(new Range('a', 'z'), new Range('A', 'Z'));
-        break;
-      case Data.Texts.LOWER:
+      case Data.Texts.LOWERCASE:
         super(new Range('a', 'z'));
         break;
-      case Data.Texts.UPPER:
+      case Data.Texts.UPPERCASE:
         super(new Range('A', 'Z'));
         break;
       default:
-        throw new TypeError(`Invalid text case style.`);
+        super(new Range('a', 'z'), new Range('A', 'Z'));
+        break;
     }
   }
 }

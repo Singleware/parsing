@@ -20,7 +20,7 @@ let Digits = class Digits extends Testing.Case {
     /**
      * Test method.
      */
-    stringDigit() {
+    stringDigits() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), '0123456789a');
         const rule = new Parsing.Rules.String.Digits();
         // Digits from 0 to 9 (Success)
@@ -34,7 +34,7 @@ let Digits = class Digits extends Testing.Case {
 __decorate([
     Testing.Method(),
     Class.Public()
-], Digits.prototype, "stringDigit", null);
+], Digits.prototype, "stringDigits", null);
 Digits = __decorate([
     Class.Describe()
 ], Digits);

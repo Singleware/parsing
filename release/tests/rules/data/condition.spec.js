@@ -14,42 +14,36 @@ const Class = require("@singleware/class");
 const Testing = require("@singleware/testing");
 const Parsing = require("../../../source");
 /**
- * Tree rule, test case.
+ * Condition rule, test case.
  */
-let Tree = class Tree extends Testing.Case {
+let Condition = class Condition extends Testing.Case {
     /**
      * Test method.
      */
-    dataTree() {
+    dataCondition() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
-        const rule = new Parsing.Rules.Data.Tree('choice', Parsing.Data.Directions.NEXT, new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('abc', 'def')));
+        const ruleA = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('abc', 'def'));
+        const ruleB = new Parsing.Rules.Data.Condition('name', Parsing.Data.Conditions.EQUALS, 'def', new Parsing.Rules.Flow.Reference(() => ruleA));
         // First success
-        this.isTrue(rule.consume(context));
-        this.areSame(context.tree.next.type, 'choice');
-        this.areSame(context.tree.next.data['name'], 'def');
+        this.isTrue(ruleA.consume(context));
+        this.areSame(context.tree.data['name'], 'def');
         this.areSame(context.offset, 3);
         // Second success
-        this.isTrue(rule.consume(context));
-        this.areSame(context.tree.next.type, 'choice');
-        this.areSame(context.tree.next.data['name'], 'def');
-        this.areSame(context.tree.next.next.type, 'choice');
-        this.areSame(context.tree.next.next.data['name'], 'abc');
+        this.isTrue(ruleB.consume(context));
+        this.areSame(context.tree.data['name'], 'abc');
         this.areSame(context.offset, 6);
-        // Expected error (No choice available)
-        this.isFalse(rule.consume(context));
-        this.areSame(context.tree.next.type, 'choice');
-        this.areSame(context.tree.next.data['name'], 'def');
-        this.areSame(context.tree.next.next.type, 'choice');
-        this.areSame(context.tree.next.next.data['name'], 'abc');
+        // Expected error (Condition failed)
+        this.isFalse(ruleB.consume(context));
+        this.areSame(context.tree.data['name'], 'abc');
         this.areSame(context.offset, 6);
     }
 };
 __decorate([
     Testing.Method(),
     Class.Public()
-], Tree.prototype, "dataTree", null);
-Tree = __decorate([
+], Condition.prototype, "dataCondition", null);
+Condition = __decorate([
     Class.Describe()
-], Tree);
-exports.Tree = Tree;
-//# sourceMappingURL=tree.spec.js.map
+], Condition);
+exports.Condition = Condition;
+//# sourceMappingURL=condition.spec.js.map

@@ -105,13 +105,14 @@ const tagOpen = new Rules.Char.Expect('<');
 const tagEnding = new Rules.Char.Expect('/');
 const tagClose = new Rules.Char.Expect('>');
 const tagName = new Rules.Flow.Repeat(new Rules.Flow.Not(new Rules.Flow.Any(whitespace, tagEnding, tagClose), content));
-const paramName = new Rules.String.Letters(Parsing.Data.Texts.BOTH);
+const paramName = new Rules.String.Letters(Parsing.Data.Texts.DEFAULT);
 const paramAssign = new Rules.Char.Expect('=');
 
 const singleString = new Rules.Flow.All(
   singleQuotes,
   new Rules.Data.Extract(
     'value',
+    Parsing.Data.Texts.DEFAULT,
     new Rules.Flow.Repeat(new Rules.Flow.Fork(escapeString, content, new Rules.Flow.Not(singleQuotes, content)))
   ),
   singleQuotes
@@ -121,6 +122,7 @@ const doubleString = new Rules.Flow.All(
   doubleQuotes,
   new Rules.Data.Extract(
     'value',
+    Parsing.Data.Texts.DEFAULT,
     new Rules.Flow.Repeat(new Rules.Flow.Fork(escapeString, content, new Rules.Flow.Not(doubleQuotes, content)))
   ),
   doubleQuotes
@@ -128,8 +130,9 @@ const doubleString = new Rules.Flow.All(
 
 const noString = new Rules.Data.Extract(
   'value',
+  Parsing.Data.Texts.DEFAULT,
   new Rules.Flow.Repeat(
-    new Rules.Flow.Any(new Rules.String.Letters(Parsing.Data.Texts.BOTH), new Rules.String.Digits(), new Rules.Char.Choice('-', '_'))
+    new Rules.Flow.Any(new Rules.String.Letters(Parsing.Data.Texts.DEFAULT), new Rules.String.Digits(), new Rules.Char.Choice('-', '_'))
   )
 );
 
@@ -148,7 +151,7 @@ text = new Rules.Status.Success(
   new Rules.Data.Tree(
     'text',
     Parsing.Data.Directions.NEXT,
-    new Rules.Data.Extract('content', new Rules.Flow.Repeat(new Rules.Flow.Not(tagOpen, content)))
+    new Rules.Data.Extract('content', Parsing.Data.Texts.DEFAULT, new Rules.Flow.Repeat(new Rules.Flow.Not(tagOpen, content)))
   )
 );
 
@@ -158,7 +161,7 @@ comment = new Rules.Status.Success(
     new Rules.Data.Tree(
       'comment',
       Parsing.Data.Directions.NEXT,
-      new Rules.Data.Extract('content', new Rules.Flow.Repeat(new Rules.Flow.Not(commentClose, content)))
+      new Rules.Data.Extract('content', Parsing.Data.Texts.DEFAULT, new Rules.Flow.Repeat(new Rules.Flow.Not(commentClose, content)))
     ),
     commentClose
   )
@@ -168,7 +171,7 @@ parameters = new Rules.Data.Tree(
   'attribute',
   Parsing.Data.Directions.NEXT,
   new Rules.Flow.All(
-    new Rules.Data.Extract('name', paramName),
+    new Rules.Data.Extract('name', Parsing.Data.Texts.LOWERCASE, paramName),
     optionalSpace,
     new Rules.Flow.Option(new Rules.Flow.All(paramAssign, optionalSpace, new Rules.Flow.Any(singleString, doubleString, noString)))
   )
@@ -181,7 +184,7 @@ element = new Rules.Status.Success(
     new Rules.Flow.All(
       new Rules.Status.Error(Errors.EXPECTED_TAG_OPENING, tagOpen),
       optionalSpace,
-      new Rules.Status.Error(Errors.EXPECTED_TAG_NAME, new Rules.Data.Extract('name', tagName)),
+      new Rules.Status.Error(Errors.EXPECTED_TAG_NAME, new Rules.Data.Extract('name', Parsing.Data.Texts.LOWERCASE, tagName)),
       optionalSpace,
       new Rules.Flow.Option(
         new Rules.Data.Node(
@@ -193,7 +196,7 @@ element = new Rules.Status.Success(
       new Rules.Flow.Any(
         new Rules.Data.Condition(
           'name',
-          Parsing.Data.Conditions.IN,
+          Parsing.Data.Conditions.INCLUDES,
           ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
           new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSING, tagClose)
         ),
@@ -213,7 +216,7 @@ element = new Rules.Status.Success(
           new Rules.Status.Error(Errors.EXPECTED_TAG_OPENING, tagOpen),
           optionalSpace,
           new Rules.Flow.All(new Rules.Status.Error(Errors.EXPECTED_TAG_ENDING, tagEnding), optionalSpace),
-          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSE, new Rules.Data.Match('name', tagName)),
+          new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSE, new Rules.Data.Match('name', Parsing.Data.Texts.LOWERCASE, tagName)),
           optionalSpace,
           new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSING, tagClose)
         )

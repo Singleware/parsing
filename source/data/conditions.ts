@@ -11,7 +11,7 @@ export enum Conditions {
   LESS_OR_EQUALS = 0x02,
   EQUALS = 0x03,
   NOT_EQUALS = 0x04,
-  GREATER_OR_EQUALS = 0x04,
-  GREATER_THAN = 0x05,
-  IN = 0x06
+  GREATER_OR_EQUALS = 0x05,
+  GREATER_THAN = 0x06,
+  INCLUDES = 0x07
 }

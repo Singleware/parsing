@@ -6,7 +6,7 @@ export declare enum Conditions {
     LESS_OR_EQUALS = 2,
     EQUALS = 3,
     NOT_EQUALS = 4,
-    GREATER_OR_EQUALS = 4,
-    GREATER_THAN = 5,
-    IN = 6
+    GREATER_OR_EQUALS = 5,
+    GREATER_THAN = 6,
+    INCLUDES = 7
 }

@@ -17,9 +17,9 @@ export class Letters extends Testing.Case {
    */
   @Testing.Method()
   @Class.Public()
-  public stringLowerLetter(): void {
+  public stringLowerLetters(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test', 0), 'abcdefghijklmnopqrstuvwxyzç');
-    const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.LOWER);
+    const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.LOWERCASE);
     // Letters from 'a' to 'z'
     this.isTrue(rule.consume(context));
     this.areSame(context.offset, 26);
@@ -33,9 +33,9 @@ export class Letters extends Testing.Case {
    */
   @Testing.Method()
   @Class.Public()
-  public stringUpperLetter(): void {
+  public stringUpperLetters(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
-    const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.UPPER);
+    const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.UPPERCASE);
     // Letters from 'A' to 'Z'
     this.isTrue(rule.consume(context));
     this.areSame(context.offset, 26);
@@ -45,13 +45,13 @@ export class Letters extends Testing.Case {
   }
 
   /**
-   * Both test method.
+   * Default test method.
    */
   @Testing.Method()
   @Class.Public()
-  public stringLetter(): void {
+  public stringDefaultLetters(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), 'aABbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÇ');
-    const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.BOTH);
+    const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.DEFAULT);
     // Letters from 'Aa' to 'Zz'
     this.isTrue(rule.consume(context));
     this.areSame(context.offset, 52);

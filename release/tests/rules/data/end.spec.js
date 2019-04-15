@@ -20,7 +20,7 @@ let End = class End extends Testing.Case {
     /**
      * Test method.
      */
-    end() {
+    dataEnd() {
         const contextA = new Parsing.Context(new Parsing.Data.Node('test'), '');
         const contextB = new Parsing.Context(new Parsing.Data.Node('test'), 'x');
         const rule = new Parsing.Rules.Data.End();
@@ -35,7 +35,7 @@ let End = class End extends Testing.Case {
 __decorate([
     Testing.Method(),
     Class.Public()
-], End.prototype, "end", null);
+], End.prototype, "dataEnd", null);
 End = __decorate([
     Class.Describe()
 ], End);

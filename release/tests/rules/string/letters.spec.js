@@ -20,9 +20,9 @@ let Letters = class Letters extends Testing.Case {
     /**
      * Lowercase test method.
      */
-    stringLowerLetter() {
+    stringLowerLetters() {
         const context = new Parsing.Context(new Parsing.Data.Node('test', 0), 'abcdefghijklmnopqrstuvwxyzç');
-        const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.LOWER);
+        const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.LOWERCASE);
         // Letters from 'a' to 'z'
         this.isTrue(rule.consume(context));
         this.areSame(context.offset, 26);
@@ -33,9 +33,9 @@ let Letters = class Letters extends Testing.Case {
     /**
      * Uppercase test method.
      */
-    stringUpperLetter() {
+    stringUpperLetters() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'ABCDEFGHIJKLMNOPQRSTUVWXYZÇ');
-        const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.UPPER);
+        const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.UPPERCASE);
         // Letters from 'A' to 'Z'
         this.isTrue(rule.consume(context));
         this.areSame(context.offset, 26);
@@ -44,11 +44,11 @@ let Letters = class Letters extends Testing.Case {
         this.areSame(context.offset, 26);
     }
     /**
-     * Both test method.
+     * Default test method.
      */
-    stringLetter() {
+    stringDefaultLetters() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'aABbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÇ');
-        const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.BOTH);
+        const rule = new Parsing.Rules.String.Letters(Parsing.Data.Texts.DEFAULT);
         // Letters from 'Aa' to 'Zz'
         this.isTrue(rule.consume(context));
         this.areSame(context.offset, 52);
@@ -60,15 +60,15 @@ let Letters = class Letters extends Testing.Case {
 __decorate([
     Testing.Method(),
     Class.Public()
-], Letters.prototype, "stringLowerLetter", null);
+], Letters.prototype, "stringLowerLetters", null);
 __decorate([
     Testing.Method(),
     Class.Public()
-], Letters.prototype, "stringUpperLetter", null);
+], Letters.prototype, "stringUpperLetters", null);
 __decorate([
     Testing.Method(),
     Class.Public()
-], Letters.prototype, "stringLetter", null);
+], Letters.prototype, "stringDefaultLetters", null);
 Letters = __decorate([
     Class.Describe()
 ], Letters);

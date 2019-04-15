@@ -17,7 +17,7 @@ export class End extends Testing.Case {
    */
   @Testing.Method()
   @Class.Public()
-  public end(): void {
+  public dataEnd(): void {
     const contextA = new Parsing.Context(new Parsing.Data.Node('test'), '');
     const contextB = new Parsing.Context(new Parsing.Data.Node('test'), 'x');
     const rule = new Parsing.Rules.Data.End();

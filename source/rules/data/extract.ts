@@ -4,6 +4,8 @@
  */
 import * as Class from '@singleware/class';
 
+import * as Data from '../../data';
+
 import { Rule } from '../../rule';
 import { Context } from '../../context';
 
@@ -19,19 +21,44 @@ export class Extract extends Class.Null implements Rule {
   private property: string;
 
   /**
+   * Text style.
+   */
+  @Class.Private()
+  private style: Data.Texts;
+
+  /**
    * Sub rule.
    */
   @Class.Private()
   private rule: Rule;
 
   /**
+   * Gets the value according to the rule text style.
+   * @param value Input value.
+   * @returns Returns the value according to the rule text style..
+   */
+  @Class.Private()
+  private getValue(value: string): string {
+    switch (this.style) {
+      case Data.Texts.LOWERCASE:
+        return value.toLowerCase();
+      case Data.Texts.UPPERCASE:
+        return value.toUpperCase();
+      default:
+        return value;
+    }
+  }
+
+  /**
    * Default constructor.
    * @param property Target property.
+   * @param style Extracted text style.
    * @param rule Extraction rule.
    */
-  constructor(property: string, rule: Rule) {
+  constructor(property: string, style: Data.Texts, rule: Rule) {
     super();
     this.property = property;
+    this.style = style;
     this.rule = rule;
   }
 
@@ -44,7 +71,7 @@ export class Extract extends Class.Null implements Rule {
   public consume(context: Context): boolean {
     const start = context.offset;
     if (this.rule.consume(context)) {
-      context.tree.data[this.property] = context.content.substring(start, context.offset);
+      context.tree.data[this.property] = this.getValue(context.content.substring(start, context.offset));
       return true;
     }
     return false;

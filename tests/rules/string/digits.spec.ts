@@ -17,7 +17,7 @@ export class Digits extends Testing.Case {
    */
   @Testing.Method()
   @Class.Public()
-  public stringDigit(): void {
+  public stringDigits(): void {
     const context = new Parsing.Context(new Parsing.Data.Node('test'), '0123456789a');
     const rule = new Parsing.Rules.String.Digits();
     // Digits from 0 to 9 (Success)

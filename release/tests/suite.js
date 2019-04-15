@@ -25,6 +25,7 @@ suite.addCase(String.Digits);
 suite.addCase(String.Expect);
 suite.addCase(String.Letters);
 // Test cases for data rules.
+suite.addCase(Data.Condition);
 suite.addCase(Data.End);
 suite.addCase(Data.Extract);
 suite.addCase(Data.Match);

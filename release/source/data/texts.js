@@ -9,8 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var Texts;
 (function (Texts) {
-    Texts[Texts["BOTH"] = 1] = "BOTH";
-    Texts[Texts["LOWER"] = 2] = "LOWER";
-    Texts[Texts["UPPER"] = 3] = "UPPER";
+    Texts[Texts["DEFAULT"] = 1] = "DEFAULT";
+    Texts[Texts["LOWERCASE"] = 2] = "LOWERCASE";
+    Texts[Texts["UPPERCASE"] = 3] = "UPPERCASE";
 })(Texts = exports.Texts || (exports.Texts = {}));
 //# sourceMappingURL=texts.js.map

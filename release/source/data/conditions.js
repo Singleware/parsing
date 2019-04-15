@@ -13,8 +13,8 @@ var Conditions;
     Conditions[Conditions["LESS_OR_EQUALS"] = 2] = "LESS_OR_EQUALS";
     Conditions[Conditions["EQUALS"] = 3] = "EQUALS";
     Conditions[Conditions["NOT_EQUALS"] = 4] = "NOT_EQUALS";
-    Conditions[Conditions["GREATER_OR_EQUALS"] = 4] = "GREATER_OR_EQUALS";
-    Conditions[Conditions["GREATER_THAN"] = 5] = "GREATER_THAN";
-    Conditions[Conditions["IN"] = 6] = "IN";
+    Conditions[Conditions["GREATER_OR_EQUALS"] = 5] = "GREATER_OR_EQUALS";
+    Conditions[Conditions["GREATER_THAN"] = 6] = "GREATER_THAN";
+    Conditions[Conditions["INCLUDES"] = 7] = "INCLUDES";
 })(Conditions = exports.Conditions || (exports.Conditions = {}));
 //# sourceMappingURL=conditions.js.map

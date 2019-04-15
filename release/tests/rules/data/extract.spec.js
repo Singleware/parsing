@@ -18,11 +18,11 @@ const Parsing = require("../../../source");
  */
 let Extract = class Extract extends Testing.Case {
     /**
-     * Test method.
+     * Lowercase test method.
      */
-    dataExtract() {
-        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
-        const rule = new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'));
+    dataLowerExtract() {
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DEFABCADG');
+        const rule = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.LOWERCASE, new Parsing.Rules.String.Choice('ABC', 'DEF'));
         // First success
         this.isTrue(rule.consume(context));
         this.areSame(context.tree.data['name'], 'def');
@@ -36,11 +36,57 @@ let Extract = class Extract extends Testing.Case {
         this.areSame(context.tree.data['name'], 'abc');
         this.areSame(context.offset, 6);
     }
+    /**
+     * Uppercase test method.
+     */
+    dataUpperExtract() {
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
+        const rule = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.UPPERCASE, new Parsing.Rules.String.Choice('abc', 'def'));
+        // First success
+        this.isTrue(rule.consume(context));
+        this.areSame(context.tree.data['name'], 'DEF');
+        this.areSame(context.offset, 3);
+        // Second success
+        this.isTrue(rule.consume(context));
+        this.areSame(context.tree.data['name'], 'ABC');
+        this.areSame(context.offset, 6);
+        // Expected error (No choice available)
+        this.isFalse(rule.consume(context));
+        this.areSame(context.tree.data['name'], 'ABC');
+        this.areSame(context.offset, 6);
+    }
+    /**
+     * Default test method.
+     */
+    dataDefaultExtract() {
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DeFaBCadg');
+        const rule = new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('aBC', 'DeF'));
+        // First success
+        this.isTrue(rule.consume(context));
+        this.areSame(context.tree.data['name'], 'DeF');
+        this.areSame(context.offset, 3);
+        // Second success
+        this.isTrue(rule.consume(context));
+        this.areSame(context.tree.data['name'], 'aBC');
+        this.areSame(context.offset, 6);
+        // Expected error (No choice available)
+        this.isFalse(rule.consume(context));
+        this.areSame(context.tree.data['name'], 'aBC');
+        this.areSame(context.offset, 6);
+    }
 };
 __decorate([
     Testing.Method(),
     Class.Public()
-], Extract.prototype, "dataExtract", null);
+], Extract.prototype, "dataLowerExtract", null);
+__decorate([
+    Testing.Method(),
+    Class.Public()
+], Extract.prototype, "dataUpperExtract", null);
+__decorate([
+    Testing.Method(),
+    Class.Public()
+], Extract.prototype, "dataDefaultExtract", null);
 Extract = __decorate([
     Class.Describe()
 ], Extract);

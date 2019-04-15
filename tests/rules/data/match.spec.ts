@@ -13,15 +13,16 @@ import * as Parsing from '../../../source';
 @Class.Describe()
 export class Match extends Testing.Case {
   /**
-   * Test method.
+   * Lowercase test method.
    */
   @Testing.Method()
   @Class.Public()
-  public dataMatch(): void {
-    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
+  public dataLowerMatch(): void {
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DeFaBCadg');
     const rule = new Parsing.Rules.Data.Match(
       'name',
-      new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'))
+      Parsing.Data.Texts.LOWERCASE,
+      new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.LOWERCASE, new Parsing.Rules.String.Choice('aBC', 'DeF'))
     );
     // First success
     this.isTrue(rule.consume(context));
@@ -34,6 +35,58 @@ export class Match extends Testing.Case {
     // Expected error (No choice available)
     this.isFalse(rule.consume(context));
     this.areSame(context.tree.data['name'], 'abc');
+    this.areSame(context.offset, 6);
+  }
+
+  /**
+   * Uppercase test method.
+   */
+  @Testing.Method()
+  @Class.Public()
+  public dataUpperMatch(): void {
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DeFaBCadg');
+    const rule = new Parsing.Rules.Data.Match(
+      'name',
+      Parsing.Data.Texts.UPPERCASE,
+      new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.UPPERCASE, new Parsing.Rules.String.Choice('aBC', 'DeF'))
+    );
+    // First success
+    this.isTrue(rule.consume(context));
+    this.areSame(context.tree.data['name'], 'DEF');
+    this.areSame(context.offset, 3);
+    // Second success
+    this.isTrue(rule.consume(context));
+    this.areSame(context.tree.data['name'], 'ABC');
+    this.areSame(context.offset, 6);
+    // Expected error (No choice available)
+    this.isFalse(rule.consume(context));
+    this.areSame(context.tree.data['name'], 'ABC');
+    this.areSame(context.offset, 6);
+  }
+
+  /**
+   * Default test method.
+   */
+  @Testing.Method()
+  @Class.Public()
+  public dataDefaultMatch(): void {
+    const context = new Parsing.Context(new Parsing.Data.Node('test'), 'DeFaBCadg');
+    const rule = new Parsing.Rules.Data.Match(
+      'name',
+      Parsing.Data.Texts.DEFAULT,
+      new Parsing.Rules.Data.Extract('name', Parsing.Data.Texts.DEFAULT, new Parsing.Rules.String.Choice('aBC', 'DeF'))
+    );
+    // First success
+    this.isTrue(rule.consume(context));
+    this.areSame(context.tree.data['name'], 'DeF');
+    this.areSame(context.offset, 3);
+    // Second success
+    this.isTrue(rule.consume(context));
+    this.areSame(context.tree.data['name'], 'aBC');
+    this.areSame(context.offset, 6);
+    // Expected error (No choice available)
+    this.isFalse(rule.consume(context));
+    this.areSame(context.tree.data['name'], 'aBC');
     this.areSame(context.offset, 6);
   }
 }

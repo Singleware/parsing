@@ -7,7 +7,7 @@
  * Data texts enumeration.
  */
 export enum Texts {
-  BOTH = 0x01,
-  LOWER = 0x02,
-  UPPER = 0x03
+  DEFAULT = 0x01,
+  LOWERCASE = 0x02,
+  UPPERCASE = 0x03
 }
