@@ -14,16 +14,16 @@ const Class = require("@singleware/class");
 const Testing = require("@singleware/testing");
 const Parsing = require("../../../source");
 /**
- * Condition rule, test case.
+ * Include rule, test case.
  */
-let Condition = class Condition extends Testing.Case {
+let Include = class Include extends Testing.Case {
     /**
      * Test method.
      */
-    dataCondition() {
+    dataEqual() {
         const context = new Parsing.Context(new Parsing.Data.Node('test'), 'defabcadg');
         const ruleA = new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.Choice('abc', 'def'));
-        const ruleB = new Parsing.Rules.Data.Condition('name', Parsing.Data.Conditions.EQUALS, 'def', new Parsing.Rules.Flow.Reference(() => ruleA));
+        const ruleB = new Parsing.Rules.Data.Include('name', ['def', 'abc'], new Parsing.Rules.Flow.Reference(() => ruleA));
         // First success
         this.isTrue(ruleA.consume(context));
         this.areSame(context.tree.data['name'], 'def');
@@ -37,13 +37,37 @@ let Condition = class Condition extends Testing.Case {
         this.areSame(context.tree.data['name'], 'abc');
         this.areSame(context.offset, 6);
     }
+    /**
+     * Soft test method.
+     */
+    dataSoftEqual() {
+        const context = new Parsing.Context(new Parsing.Data.Node('test'), 'dEfABcadg');
+        const ruleA = new Parsing.Rules.Data.Extract('name', new Parsing.Rules.String.SoftChoice('abc', 'def'));
+        const ruleB = new Parsing.Rules.Data.SoftInclude('name', ['def', 'abc'], new Parsing.Rules.Flow.Reference(() => ruleA));
+        // First success
+        this.isTrue(ruleA.consume(context));
+        this.areSame(context.tree.data['name'], 'dEf');
+        this.areSame(context.offset, 3);
+        // Second success
+        this.isTrue(ruleB.consume(context));
+        this.areSame(context.tree.data['name'], 'ABc');
+        this.areSame(context.offset, 6);
+        // Expected error (Condition failed)
+        this.isFalse(ruleB.consume(context));
+        this.areSame(context.tree.data['name'], 'ABc');
+        this.areSame(context.offset, 6);
+    }
 };
 __decorate([
     Testing.Method(),
     Class.Public()
-], Condition.prototype, "dataCondition", null);
-Condition = __decorate([
+], Include.prototype, "dataEqual", null);
+__decorate([
+    Testing.Method(),
+    Class.Public()
+], Include.prototype, "dataSoftEqual", null);
+Include = __decorate([
     Class.Describe()
-], Condition);
-exports.Condition = Condition;
-//# sourceMappingURL=condition.spec.js.map
+], Include);
+exports.Include = Include;
+//# sourceMappingURL=include.spec.js.map

@@ -83,7 +83,7 @@ const context = new Parsing.Context(
 <html>
   <!-- Header begins -->
   <head>
-    <meta charset="utf-8">
+    <META charset="utf-8">
     <title>Parser Test</title>
   </head>
   <!-- Header ends, body begins -->
@@ -189,9 +189,8 @@ element = new Rules.Status.Success(
         )
       ),
       new Rules.Flow.Any(
-        new Rules.Data.Condition(
+        new Rules.Data.SoftInclude(
           'name',
-          Parsing.Data.Conditions.INCLUDES,
           ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
           new Rules.Status.Error(Errors.EXPECTED_TAG_CLOSING, tagClose)
         ),
