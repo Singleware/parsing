@@ -7,7 +7,7 @@
   "name": "@singleware/parsing",
   "description": "Singleware parsing tools.",
   "license": "MIT",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "release/source/index.js",
   "types": "release/types/index.d.ts",
   "keywords": [
@@ -45,6 +45,8 @@
     "make-source": "tsc -p ./source && npm run update-source",
     "make-examples": "tsc -p ./examples",
     "make-tests": "tsc -p ./tests",
-    "update-source": "cp -Rf ./source/*.d.ts ./release/types"
+    "update-source": "npm run update-root && npm run update-data",
+    "update-root": "cp -Rf ./source/*.d.ts ./release/types/",
+    "update-data": "cp -Rf ./source/data/*.d.ts ./release/types/data"
   }
 }
